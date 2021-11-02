@@ -1,6 +1,4 @@
-from os import remove
 import pygame
-import math
 import random
 
 pygame.init()
@@ -17,8 +15,6 @@ rows = 16
 num_boxes = rows * cols
 box_width = (width - (2 * side_bumper)) / cols
 box_height = (height - (2 * side_bumper)) / rows
-
-
 
 # global variables for click events
 clicked_boxes = []
@@ -41,18 +37,16 @@ def get_box_from_click(m_x, m_y):
 
 def get_xy_from_box(box_num):
 
-    box_xpos = (side_bumper + ((box_num % cols) * box_width)) + 3
-    box_ypos = ((box_num // cols) * box_height) + 2
+    box_xpos = (side_bumper + ((box_num % cols) * box_width)) + 4
+    box_ypos = (side_bumper+ ((box_num // cols) * box_height)) + 1
 
-    # why do you not need the side_bumper here? no idea actually, but you don't
-    # box_ypos = side_bumper + ((box_num // cols) * box_height)
 
     return box_xpos, box_ypos
 
 def draw_char_on_win(box_num, char):
 
     # pygame.draw.circle(win, (0, 0, 0), (x,y), radius, 3)
-    letter_font = pygame.font.SysFont('comicsans', 30)
+    letter_font = pygame.font.SysFont('Helvetica', 30)
     text = letter_font.render(char, 1, (0,0,0))
     box_xpos, box_ypos = get_xy_from_box(box_num)
 
