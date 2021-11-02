@@ -16,10 +16,17 @@ num_boxes = rows * cols
 box_width = (width - (2 * side_bumper)) / cols
 box_height = (height - (2 * side_bumper)) / rows
 
+# grey colors for background and tiles
+greys = (130, 180, 230)
+
+# red colors for mine numbers
+reds = [i for i in range(10, 231, 30)]
+reds = reds[::-1]
+
 # global variables for click events
 clicked_boxes = []
-clicked_mines = []
 clicked_flags = []
+display_mines = False
 
 def get_box_from_click(m_x, m_y):
     # return False if click is outside boxes
@@ -43,11 +50,16 @@ def get_xy_from_box(box_num):
 
     return box_xpos, box_ypos
 
-def draw_char_on_win(box_num, char):
+def draw_char_on_win(box_num, char, num_mines = False):
 
     # pygame.draw.circle(win, (0, 0, 0), (x,y), radius, 3)
     letter_font = pygame.font.SysFont('Helvetica', 30)
-    text = letter_font.render(char, 1, (0,0,0))
+    if num_mines:
+        text = letter_font.render(char, 1, (reds[num_mines],0,0))
+    elif str(num_mines) == '0':
+        return
+    else:
+        text = letter_font.render(char, 1, (0,0,0))
     box_xpos, box_ypos = get_xy_from_box(box_num)
 
     win.blit(text, (box_xpos, box_ypos))
@@ -170,10 +182,7 @@ def generate_opening_mines(box_num, num_mines):
         choices = list(box_nums - set(mines) - set(opening_zeros))
         mines.append(random.choice(choices))
     
-    # print(opening_zeros, mines)
     return mines
-
-
 
 def get_neighbor_zeros_recur(box_num, zeros=None, visited=None):
 
@@ -264,38 +273,54 @@ def get_neighbor_zeros_recur(box_num, zeros=None, visited=None):
 
 def draw_window():
     
-    win.fill((255, 255, 255)) # RGB color in tuple
+    win.fill((greys[1], greys[1], greys[1])) # RGB color in tuple
+
+    line_weight = 3
     
     # create outer box first
     # Rect object: Rect(left, top, width, height)
-    button_box = pygame.Rect(side_bumper, side_bumper, width - (2 * side_bumper), height - (2 * side_bumper))
-    pygame.draw.rect(win, (0,0,0), button_box, width=3)
-
+    # button_box = pygame.Rect(side_bumper - line_weight, side_bumper - line_weight, width - (2 * side_bumper) + line_weight, height - (2 * side_bumper)  + line_weight)
+    # pygame.draw.rect(win, (0,0,0), button_box, width=3)
 
     for i in range(num_boxes):
         box_xpos = side_bumper + ((i % cols) * box_width)
         box_ypos = side_bumper + ((i // cols) * box_height)
 
-        if i in clicked_boxes:
+        clicked_box_pos_only = [i[0] for i in clicked_boxes]
+
+        if i in clicked_box_pos_only:
             button_box = pygame.Rect(box_xpos, box_ypos, box_width, box_height)
-            pygame.draw.rect(win, (100,100,100), button_box)
+            pygame.draw.rect(win, (greys[0],greys[0],greys[0]), button_box)
 
             button_border = pygame.Rect(box_xpos, box_ypos, box_width, box_height)
-            pygame.draw.rect(win, (0,0,0), button_border, width=1)
-
+            pygame.draw.rect(win, (greys[1], greys[1], greys[1]), button_border, width=1)
+        
         else:
+            # draw boxes with lines to get feeling of depth: 
+            # white-ish lines for left
+            pygame.draw.line(win, (greys[2], greys[2], greys[2]), (box_xpos, box_ypos), (box_xpos + box_width, box_ypos), line_weight)
+
+            # top line
+            pygame.draw.line(win, (greys[2], greys[2], greys[2]), (box_xpos, box_ypos), (box_xpos, box_ypos + box_height), line_weight)
+
+            # darker grey lines for bottom
+            pygame.draw.line(win, (greys[0], greys[0], greys[0]), (box_xpos + line_weight, box_ypos + box_height - line_weight), (box_xpos + box_width - line_weight, box_ypos + box_height - line_weight), line_weight)
+            
+            # right line
+            pygame.draw.line(win, (greys[0], greys[0], greys[0]), (box_xpos + box_width - 3, box_ypos + line_weight), (box_xpos + box_width - 3, box_ypos + box_height - line_weight), line_weight)
+
             button_border = pygame.Rect(box_xpos, box_ypos, box_width, box_height)
             pygame.draw.rect(win, (0,0,0), button_border, width=1)
-    
+        
     for i, num_mines in clicked_boxes:
-        draw_char_on_win(i, chr(48 + num_mines))
+        draw_char_on_win(i, chr(48 + num_mines), num_mines)
     
-    for i in clicked_mines:
-        draw_char_on_win(i, chr(88))
-    
-    for i in clicked_flags:
-        draw_char_on_win(i, chr(63))
-
+    if display_mines:
+        for i in mine_locations:
+            draw_char_on_win(i, chr(88))
+    else:
+        for i in clicked_flags:
+            draw_char_on_win(i, chr(63))
 
     # display_font = pygame.font.SysFont('comicsans', 25)
     # header_text = display_font.render("Player 2: Guess the word!", 1, (0,0,0))
@@ -336,7 +361,8 @@ def main():
                         mine_locations = generate_opening_mines(box_num, num_mines)
 
                     if box_num in mine_locations:
-                        clicked_mines.append(box_num)
+                        global display_mines
+                        display_mines = True
                         
                     else:
                         num_mines = get_mine_number(box_num)
