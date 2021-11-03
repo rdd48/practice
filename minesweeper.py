@@ -4,12 +4,12 @@ import random
 pygame.init()
 
 # global varaibles for window
-width, height = 800, 575
+width, height = 800, 550
 win = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Minesweeper")
 
 # global variables for boxes
-header = 75
+header = 50
 side_bumper = 10
 cols = 30
 rows = 16
@@ -323,9 +323,9 @@ def draw_window():
         for i in clicked_flags:
             draw_char_on_win(i, chr(63))
 
-    # display_font = pygame.font.SysFont('comicsans', 25)
-    # header_text = display_font.render("Player 2: Guess the word!", 1, (0,0,0))
-    # win.blit(header_text, (50, 50))
+    header_font = pygame.font.SysFont('Helvetica', 25)
+    header_text = header_font.render(str(num_total_mines - len(clicked_flags)), 1, (150,0,0))
+    win.blit(header_text, (600, 20))
     # submit_text = letter_font.render('SUBMIT', 1, (0,0,0))
     # win.blit(submit_text, (625, 260))
 
@@ -338,12 +338,13 @@ def main():
     run = True
 
     # start game with randomly-generated mine locations
-    num_mines = 100
-    global mine_locations
+    global mine_locations, num_total_mines
+    num_total_mines = 100
     mine_locations = []
 
     while run:
         clock.tick(fps)
+        
         draw_window()
 
         button_mods = pygame.key.get_mods()
@@ -391,7 +392,7 @@ def main():
 
                     if not mine_locations:
                         # global mine_locations
-                        mine_locations = generate_opening_mines(box_num, num_mines)
+                        mine_locations = generate_opening_mines(box_num, num_total_mines)
 
                     if box_num in mine_locations:
                         global display_mines
