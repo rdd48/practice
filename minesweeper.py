@@ -4,17 +4,18 @@ import random
 pygame.init()
 
 # global varaibles for window
-width, height = 800, 500
+width, height = 800, 575
 win = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Minesweeper")
 
 # global variables for boxes
+header = 75
 side_bumper = 10
 cols = 30
 rows = 16
 num_boxes = rows * cols
 box_width = (width - (2 * side_bumper)) / cols
-box_height = (height - (2 * side_bumper)) / rows
+box_height = (height - header - (2 * side_bumper)) / rows
 
 # grey colors for background and tiles
 greys = (130, 180, 230)
@@ -27,14 +28,15 @@ reds = reds[::-1]
 clicked_boxes = []
 clicked_flags = []
 display_mines = False
+click_and_held_box = -1 # can't be False, because of box 0, but basically False
 
 def get_box_from_click(m_x, m_y):
-    # return False if click is outside boxes
+    # return border str if click is outside boxes
     if (m_x < side_bumper) or (m_x > width - side_bumper)\
-        or (m_y < side_bumper) or (m_y > height - side_bumper):
+        or (m_y < side_bumper + header) or (m_y > height - side_bumper):
         return 'border'
 
-    box_row = (m_y - side_bumper) // box_height
+    box_row = (m_y - side_bumper - header) // box_height
     box_col = (m_x - side_bumper) // box_width
 
     # convert to the number of the box used when drawing the window
@@ -44,9 +46,8 @@ def get_box_from_click(m_x, m_y):
 
 def get_xy_from_box(box_num):
 
-    box_xpos = (side_bumper + ((box_num % cols) * box_width)) + 4
-    box_ypos = (side_bumper+ ((box_num // cols) * box_height)) + 1
-
+    box_xpos = (side_bumper + ((box_num % cols) * box_width))
+    box_ypos = (side_bumper + header + ((box_num // cols) * box_height))
 
     return box_xpos, box_ypos
 
@@ -62,7 +63,7 @@ def draw_char_on_win(box_num, char, num_mines = False):
         text = letter_font.render(char, 1, (0,0,0))
     box_xpos, box_ypos = get_xy_from_box(box_num)
 
-    win.blit(text, (box_xpos, box_ypos))
+    win.blit(text, (box_xpos + 4, box_ypos + 1))
 
     # pygame.display.update()
 
@@ -276,7 +277,7 @@ def draw_window():
     win.fill((greys[1], greys[1], greys[1])) # RGB color in tuple
 
     line_weight = 3
-    
+
     # create outer box first
     # Rect object: Rect(left, top, width, height)
     # button_box = pygame.Rect(side_bumper - line_weight, side_bumper - line_weight, width - (2 * side_bumper) + line_weight, height - (2 * side_bumper)  + line_weight)
@@ -284,11 +285,11 @@ def draw_window():
 
     for i in range(num_boxes):
         box_xpos = side_bumper + ((i % cols) * box_width)
-        box_ypos = side_bumper + ((i // cols) * box_height)
+        box_ypos = side_bumper + header + ((i // cols) * box_height)
 
         clicked_box_pos_only = [i[0] for i in clicked_boxes]
 
-        if i in clicked_box_pos_only:
+        if i in clicked_box_pos_only or i == click_and_held_box:
             button_box = pygame.Rect(box_xpos, box_ypos, box_width, box_height)
             pygame.draw.rect(win, (greys[0],greys[0],greys[0]), button_box)
 
@@ -344,12 +345,44 @@ def main():
     while run:
         clock.tick(fps)
         draw_window()
+
+        button_mods = pygame.key.get_mods()
+
+        if pygame.mouse.get_pressed()[0] and (not button_mods or button_mods % 64 != 0):
+                m_x, m_y = pygame.mouse.get_pos()
+                box_num = get_box_from_click(m_x, m_y)
+
+                clicked_box_pos_only = [i[0] for i in clicked_boxes]
+
+                if box_num != 'border' and box_num not in clicked_box_pos_only:
+
+                    box_xpos, box_ypos = get_xy_from_box(box_num)
+
+                    button_box = pygame.Rect(box_xpos, box_ypos, box_width, box_height)
+                    pygame.draw.rect(win, (greys[0],greys[0],greys[0]), button_box)
+
+                    button_border = pygame.Rect(box_xpos, box_ypos, box_width, box_height)
+                    pygame.draw.rect(win, (greys[1], greys[1], greys[1]), button_border, width=1)
+
+                    global click_and_held_box
+                    click_and_held_box = box_num
+
+                    pygame.display.update()
+                
+                else:
+                    click_and_held_box = -1
+                
+
+        else:
+            click_and_held_box = -1
+            pygame.display.update()
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return False
             
-            button_mods = pygame.key.get_mods()
-            if event.type == pygame.MOUSEBUTTONDOWN and not button_mods:
+
+            if event.type == pygame.MOUSEBUTTONUP and (not button_mods or button_mods % 64 != 0):
                 m_x, m_y = pygame.mouse.get_pos()
                 box_num = get_box_from_click(m_x, m_y)
 
@@ -376,12 +409,14 @@ def main():
                     if box_num in clicked_flags:
                         clicked_flags.remove(box_num)
                     
-            elif event.type == pygame.MOUSEBUTTONDOWN and button_mods in [64, 8256]: # ctrl click w/o and w/ caps lock
+            elif event.type == pygame.MOUSEBUTTONDOWN and button_mods and button_mods % 64 == 0: # ctrl click
                 m_x, m_y = pygame.mouse.get_pos()
                 box_num = get_box_from_click(m_x, m_y)
 
-                # check if click within boxes
-                if box_num != 'border':
+                clicked_box_pos_only = [i[0] for i in clicked_boxes]
+
+                # check if click within boxes and not already clicked
+                if box_num != 'border' and box_num not in clicked_box_pos_only:
                     clicked_flags.append(box_num)
 
 
