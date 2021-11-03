@@ -331,6 +331,82 @@ def draw_window():
 
     pygame.display.update()
 
+def draw_window_end():
+    
+    win.fill((greys[1], greys[1], greys[1])) # RGB color in tuple
+
+    line_weight = 3
+
+    # create outer box first
+    # Rect object: Rect(left, top, width, height)
+    # button_box = pygame.Rect(side_bumper - line_weight, side_bumper - line_weight, width - (2 * side_bumper) + line_weight, height - (2 * side_bumper)  + line_weight)
+    # pygame.draw.rect(win, (0,0,0), button_box, width=3)
+
+    for i in range(num_boxes):
+        box_xpos = side_bumper + ((i % cols) * box_width)
+        box_ypos = side_bumper + header + ((i // cols) * box_height)
+
+        clicked_box_pos_only = [i[0] for i in clicked_boxes]
+
+        if i in clicked_box_pos_only:
+            button_box = pygame.Rect(box_xpos, box_ypos, box_width, box_height)
+            pygame.draw.rect(win, (greys[0],greys[0],greys[0]), button_box)
+
+            button_border = pygame.Rect(box_xpos, box_ypos, box_width, box_height)
+            pygame.draw.rect(win, (greys[1], greys[1], greys[1]), button_border, width=1)
+        
+        else:
+            # draw boxes with lines to get feeling of depth: 
+            # white-ish lines for left
+            pygame.draw.line(win, (greys[2], greys[2], greys[2]), (box_xpos, box_ypos), (box_xpos + box_width, box_ypos), line_weight)
+
+            # top line
+            pygame.draw.line(win, (greys[2], greys[2], greys[2]), (box_xpos, box_ypos), (box_xpos, box_ypos + box_height), line_weight)
+
+            # darker grey lines for bottom
+            pygame.draw.line(win, (greys[0], greys[0], greys[0]), (box_xpos + line_weight, box_ypos + box_height - line_weight), (box_xpos + box_width - line_weight, box_ypos + box_height - line_weight), line_weight)
+            
+            # right line
+            pygame.draw.line(win, (greys[0], greys[0], greys[0]), (box_xpos + box_width - 3, box_ypos + line_weight), (box_xpos + box_width - 3, box_ypos + box_height - line_weight), line_weight)
+
+            button_border = pygame.Rect(box_xpos, box_ypos, box_width, box_height)
+            pygame.draw.rect(win, (0,0,0), button_border, width=1)
+        
+    for i, num_mines in clicked_boxes:
+        draw_char_on_win(i, chr(48 + num_mines), num_mines)
+    
+    for i in mine_locations:
+        draw_char_on_win(i, chr(88))
+
+    for i in clicked_flags:
+        draw_char_on_win(i, chr(63))
+    
+    # Rect object: Rect(left, top, width, height)
+    s_left, s_top, s_width, s_height = 565, 10, 200, 42
+    s_line = 3
+    submit_box = pygame.Rect(s_left, s_top, s_width, s_height)
+    pygame.draw.rect(win, (0,0,0), submit_box, width=s_line)
+
+    # white-ish lines for left
+    pygame.draw.line(win, (greys[2], greys[2], greys[2]), (s_left + s_line, s_top + s_line), (s_left + s_line, s_top + s_height - s_line), s_line)
+
+    # top line
+    pygame.draw.line(win, (greys[2], greys[2], greys[2]), (s_left + s_line, s_top + s_line), (s_left + s_width - s_line, s_top + s_line), s_line)
+
+    # darker grey lines for bottom
+    pygame.draw.line(win, (greys[0], greys[0], greys[0]), (s_left + s_line, s_top + s_height - s_line), (s_left + s_width - s_line, s_top + s_height - s_line), s_line)
+    
+    # right line
+    pygame.draw.line(win, (greys[0], greys[0], greys[0]), (s_left + s_width - s_line, s_top + s_line), (s_left + s_width - s_line, s_top + s_height - s_line), s_line)
+    
+    button_font = pygame.font.SysFont('Helvetica', 25)
+    button_text = button_font.render('Play again?', 1, (0,0,0))
+    win.blit(button_text, (600, 20))
+    # # submit_text = letter_font.render('SUBMIT', 1, (0,0,0))
+    # # win.blit(submit_text, (625, 260))
+
+    pygame.display.update()
+
 
 def main(): 
     fps = 60
@@ -395,8 +471,16 @@ def main():
                         mine_locations = generate_opening_mines(box_num, num_total_mines)
 
                     if box_num in mine_locations:
-                        global display_mines
-                        display_mines = True
+                        end = True
+                        while end: 
+
+                            clock.tick(fps)
+                            draw_window_end()
+
+                            for event in pygame.event.get():
+                                if event.type == pygame.QUIT:
+                                    return False
+                                # finish this
                         
                     else:
                         num_mines = get_mine_number(box_num)
@@ -419,7 +503,9 @@ def main():
                 # check if click within boxes and not already clicked
                 if box_num != 'border' and box_num not in clicked_box_pos_only:
                     clicked_flags.append(box_num)
-
+    
+    
+            
 
 
 if __name__ == '__main__':
