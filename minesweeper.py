@@ -24,12 +24,6 @@ greys = (130, 180, 230)
 reds = [i for i in range(10, 231, 30)]
 reds = reds[::-1]
 
-# global variables for click events
-clicked_boxes = []
-clicked_flags = []
-display_mines = False
-click_and_held_box = -1 # can't be False, because of box 0, but basically False
-
 def get_box_from_click(m_x, m_y):
     # return border str if click is outside boxes
     if (m_x < side_bumper) or (m_x > width - side_bumper)\
@@ -272,6 +266,11 @@ def get_neighbor_zeros_recur(box_num, zeros=None, visited=None):
 
     return(zeros)
 
+def reset_button_pushed(m_x, m_y):
+    if m_x >= 565 and m_x <= 765 and m_y >= 10 and m_y <= 52:
+        return True
+    return False
+
 def draw_window():
     
     win.fill((greys[1], greys[1], greys[1])) # RGB color in tuple
@@ -376,7 +375,8 @@ def draw_window_end():
         draw_char_on_win(i, chr(48 + num_mines), num_mines)
     
     for i in mine_locations:
-        draw_char_on_win(i, chr(88))
+        if i not in clicked_flags:
+            draw_char_on_win(i, chr(88))
 
     for i in clicked_flags:
         draw_char_on_win(i, chr(63))
@@ -402,11 +402,8 @@ def draw_window_end():
     button_font = pygame.font.SysFont('Helvetica', 25)
     button_text = button_font.render('Play again?', 1, (0,0,0))
     win.blit(button_text, (600, 20))
-    # # submit_text = letter_font.render('SUBMIT', 1, (0,0,0))
-    # # win.blit(submit_text, (625, 260))
 
     pygame.display.update()
-
 
 def main(): 
     fps = 60
@@ -417,6 +414,13 @@ def main():
     global mine_locations, num_total_mines
     num_total_mines = 100
     mine_locations = []
+
+    # global variables for click events
+    global clicked_boxes, clicked_flags, display_mines, click_and_held_box
+    clicked_boxes = []
+    clicked_flags = []
+    display_mines = False
+    click_and_held_box = -1 # can't be False, because of box 0, but basically False
 
     while run:
         clock.tick(fps)
@@ -441,7 +445,6 @@ def main():
                     button_border = pygame.Rect(box_xpos, box_ypos, box_width, box_height)
                     pygame.draw.rect(win, (greys[1], greys[1], greys[1]), button_border, width=1)
 
-                    global click_and_held_box
                     click_and_held_box = box_num
 
                     pygame.display.update()
@@ -480,8 +483,15 @@ def main():
                             for event in pygame.event.get():
                                 if event.type == pygame.QUIT:
                                     return False
-                                # finish this
-                        
+                                if event.type == pygame.MOUSEBUTTONDOWN:
+                                    m_x, m_y = pygame.mouse.get_pos()
+                                    if reset_button_pushed(m_x, m_y):
+                                        mine_locations = []
+                                        clicked_boxes = []
+                                        clicked_flags = []
+                                        display_mines = False
+                                        end = False
+                                    
                     else:
                         num_mines = get_mine_number(box_num)
                         clicked_boxes.append([box_num, num_mines])
@@ -503,9 +513,6 @@ def main():
                 # check if click within boxes and not already clicked
                 if box_num != 'border' and box_num not in clicked_box_pos_only:
                     clicked_flags.append(box_num)
-    
-    
-            
 
 
 if __name__ == '__main__':
