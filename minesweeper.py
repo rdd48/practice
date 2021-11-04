@@ -452,7 +452,6 @@ def main():
                 else:
                     click_and_held_box = -1
                 
-
         else:
             click_and_held_box = -1
             pygame.display.update()
@@ -461,7 +460,6 @@ def main():
             if event.type == pygame.QUIT:
                 return False
             
-
             if event.type == pygame.MOUSEBUTTONUP and (not button_mods or button_mods % 64 != 0):
                 m_x, m_y = pygame.mouse.get_pos()
                 box_num = get_box_from_click(m_x, m_y)
@@ -473,7 +471,29 @@ def main():
                         # global mine_locations
                         mine_locations = generate_opening_mines(box_num, num_total_mines)
 
+                    # check if player loses:
                     if box_num in mine_locations:
+                        end = True
+                        while end: 
+
+                            clock.tick(fps)
+                            draw_window_end()
+
+                            for event in pygame.event.get():
+                                if event.type == pygame.QUIT:
+                                    return False
+                                if event.type == pygame.MOUSEBUTTONDOWN:
+                                    m_x, m_y = pygame.mouse.get_pos()
+                                    if reset_button_pushed(m_x, m_y):
+                                        mine_locations = []
+                                        clicked_boxes = []
+                                        clicked_flags = []
+                                        display_mines = False
+                                        end = False
+                    
+                    elif num_boxes - len(clicked_boxes) == num_total_mines:
+                        num_mines = get_mine_number(box_num)
+                        clicked_boxes.append([box_num, num_mines])
                         end = True
                         while end: 
 
