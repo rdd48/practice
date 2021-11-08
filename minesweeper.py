@@ -277,11 +277,6 @@ def draw_window():
 
     line_weight = 3
 
-    # create outer box first
-    # Rect object: Rect(left, top, width, height)
-    # button_box = pygame.Rect(side_bumper - line_weight, side_bumper - line_weight, width - (2 * side_bumper) + line_weight, height - (2 * side_bumper)  + line_weight)
-    # pygame.draw.rect(win, (0,0,0), button_box, width=3)
-
     for i in range(num_boxes):
         box_xpos = side_bumper + ((i % cols) * box_width)
         box_ypos = side_bumper + header + ((i // cols) * box_height)
@@ -335,11 +330,6 @@ def draw_window_end():
     win.fill((greys[1], greys[1], greys[1])) # RGB color in tuple
 
     line_weight = 3
-
-    # create outer box first
-    # Rect object: Rect(left, top, width, height)
-    # button_box = pygame.Rect(side_bumper - line_weight, side_bumper - line_weight, width - (2 * side_bumper) + line_weight, height - (2 * side_bumper)  + line_weight)
-    # pygame.draw.rect(win, (0,0,0), button_box, width=3)
 
     for i in range(num_boxes):
         box_xpos = side_bumper + ((i % cols) * box_width)
@@ -472,7 +462,7 @@ def main():
                         mine_locations = generate_opening_mines(box_num, num_total_mines)
 
                     # check if player loses:
-                    if box_num in mine_locations:
+                    if box_num in mine_locations and box_num not in clicked_flags:
                         end = True
                         while end: 
 
@@ -491,6 +481,7 @@ def main():
                                         display_mines = False
                                         end = False
                     
+                    # no non-mine boxes left unclicked
                     elif num_boxes - len(clicked_boxes) == num_total_mines:
                         num_mines = get_mine_number(box_num)
                         clicked_boxes.append([box_num, num_mines])
@@ -511,8 +502,9 @@ def main():
                                         clicked_flags = []
                                         display_mines = False
                                         end = False
-                                    
-                    else:
+
+                    # non-mine box clicked and other non-mine boxes remain                
+                    elif box_num not in clicked_flags:
                         num_mines = get_mine_number(box_num)
                         clicked_boxes.append([box_num, num_mines])
                         if get_mine_number(box_num) == 0:
@@ -521,18 +513,21 @@ def main():
                                 for z, num_mines in zeros:
                                     clicked_boxes.append([z, num_mines])
                     
-                    if box_num in clicked_flags:
-                        clicked_flags.remove(box_num)
-                    
-            elif event.type == pygame.MOUSEBUTTONDOWN and button_mods and button_mods % 64 == 0: # ctrl click
+                    # if box_num in clicked_flags:
+                    #     clicked_flags.remove(box_num)
+            
+            # add flags with control click
+            elif event.type == pygame.MOUSEBUTTONDOWN and button_mods and button_mods % 64 == 0:
                 m_x, m_y = pygame.mouse.get_pos()
                 box_num = get_box_from_click(m_x, m_y)
 
                 clicked_box_pos_only = [i[0] for i in clicked_boxes]
 
                 # check if click within boxes and not already clicked
-                if box_num != 'border' and box_num not in clicked_box_pos_only:
+                if box_num != 'border' and box_num not in clicked_box_pos_only and box_num not in clicked_flags:
                     clicked_flags.append(box_num)
+                elif box_num != 'border' and box_num in clicked_flags:
+                    clicked_flags.remove(box_num)
 
 
 if __name__ == '__main__':
