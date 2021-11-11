@@ -2,24 +2,15 @@ from longest_motif import longest_common_substr, process_fasta
 
 names, fasta_dict = process_fasta('input/test.txt')
 
-def get_max_substr(substr, strng):
-    substr = substr[::-1]
-    strng = strng[::-1]
-    max_len = 0
-    print(substr, strng)
-    for i in range(len(substr)):
-        if strng[0] == substr[i]:
-            temp_max_len = 1
-            new_i = i + 1
-            while new_i < len(substr):
-                if strng[0:temp_max_len] == substr[i:new_i]:
-                    new_i += 1
-                    temp_max_len += 1
-                else:
-                    break
-            if temp_max_len > max_len:
-                max_len = temp_max_len 
-    return(max_len)
+def get_max_substr(sub_str, base_str):
+    sub_str = sub_str[::-1]
+    base_str = base_str[::-1]
+    best_score = 0
+    for i in range(1,len(sub_str)+1):
+        if sub_str[0:i] == base_str[-i:]:
+            best_score = i
+    return(best_score)
+
 
 def calc_failure_array(strng):
     failure_array = [0]
