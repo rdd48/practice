@@ -1,6 +1,6 @@
 from longest_motif import longest_common_substr, process_fasta
 
-names, fasta_dict = process_fasta('input/test.txt')
+names, fasta_dict = process_fasta('input/rosalind_kmp.txt')
 
 def get_max_substr(sub_str, base_str):
     sub_str = sub_str[::-1]
@@ -34,5 +34,8 @@ def calc_failure_array(strng):
 
     return ' '.join([str(i) for i in failure_array])
 
-print(calc_failure_array(fasta_dict[names[0]]))
+# print(calc_failure_array(fasta_dict[names[0]]))
+
+with open('output/speed_up_motif_out.txt', 'w+') as output:
+    output.write(calc_failure_array(fasta_dict[names[0]]))
 

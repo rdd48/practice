@@ -10,7 +10,7 @@ def reverse_and_round_dict(d):
 rev_dict = reverse_and_round_dict(mw_dict)
 aas = ''
 
-with open('input/test.txt') as f:
+with open('input/rosalind_spec.txt') as f:
     lines = f.readlines()
     for i in range(len(lines)):
         if i < (len(lines) - 1):
