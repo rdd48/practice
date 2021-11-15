@@ -166,7 +166,11 @@ def generate_opening_zeros(box_num):
             box_num += 1
             opening_zeros.append(box_num)
     
-    return opening_zeros
+    # remove duplicates
+    duplicates = []
+    no_dup_zeros = [i if i not in duplicates else duplicates.append(i) for i in opening_zeros]
+    
+    return no_dup_zeros
 
 def generate_opening_mines(box_num, num_mines):
     opening_zeros = generate_opening_zeros(box_num)
@@ -402,7 +406,7 @@ def main():
 
     # start game with randomly-generated mine locations
     global mine_locations, num_total_mines
-    num_total_mines = 100
+    num_total_mines = 50
     mine_locations = []
 
     # global variables for click events
