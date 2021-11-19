@@ -7,4 +7,6 @@ def permutations(i):
     p = it.permutations(range(1 , i+1))
     return [j for j in p]
 
-print(permutations(n))
+perm_out = permutations(n)
+for p in perm_out:
+    print(' '.join([str(i) for i in list(p)]))
