@@ -2,55 +2,43 @@
 
 from process_fasta import process_fasta
 
-names, fasta_dict = process_fasta('input/test.txt')
+names, fasta_dict = process_fasta('input/rosalind_long.txt')
 
 def align_strs(str1, str2):
-    prefix_len, suffix_len = [], []
+
     prefix, suffix = [], []
 
     for i in range(len(str1)):
 
-        # prefix case: i.e, align the end of str2 to the front of str1
-                
-
-        start = str2[-i-1:]
-        end = str1[:i+1]
-
-        if start == end[:len(str2)]:
+        if str1[:i+1] == str2[-i-1:]:
             prefix.append(str2 + str1[i+1:])
-
-        # suffix case: i.e, align the end of str1 to the front of str2
-
-        start = str1[-i-1:]
-        end = str2[:i+1]
-
-        if start[:len(str2)] == end:
+        if str1[-i-1:] == str2[:i+1]:
             suffix.append(str1 + str2[i+1:])
+    
+    # prefix = min(prefix, key=len) if prefix else None
+    # suffix = min(suffix, key=len) if suffix else None
 
-        return prefix, suffix 
-
-
+    return prefix, suffix 
 
 possible_combos = [fasta_dict[names[0]]]
+curr_combos = []
 
 for n in names[1:]:
-    print(possible_combos)
-
-    next_combos = []
-
     seq = fasta_dict[n]
 
-    for p in possible_combos:
-        # print(possible_combos, p, seq)
-        prefix, suffix = align_strs(seq, p)
-        print(prefix, suffix)
-    
-        if prefix:
-            next_combos += prefix
-        if suffix:
-            next_combos += suffix
-    
-    possible_combos = next_combos
-    # print(min(possible_combos, key=len))
 
-# print(min(possible_combos, key=len))
+    for p in possible_combos:
+        if seq in p:
+            curr_combos.append(p)
+
+        prefix, suffix = align_strs(seq, p)
+
+        if prefix:
+            curr_combos += prefix
+        if suffix:
+            curr_combos += suffix
+    
+    possible_combos = curr_combos
+    curr_combos = []
+
+    print(min(possible_combos, key=len))
