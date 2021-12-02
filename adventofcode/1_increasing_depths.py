@@ -24,5 +24,5 @@ def sliding_window_depths(filename):
     return total_inc
 
 
-# print(increasing_from_depths('input/depths.txt'))
-print(sliding_window_depths('input/depths.txt'))
+# print(increasing_from_depths('input/1_depths.txt'))
+print(sliding_window_depths('input/1_depths.txt'))
