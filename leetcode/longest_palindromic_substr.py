@@ -48,5 +48,4 @@ def longestPalindrome(s: str) -> str:
 
 print(longestPalindrome('ccc'))
 print(longestPalindrome('cccc'))
-print(longestPalindrome('abc'))
-print(longestPalindrome('dabccbae'))
+print(longestPalindrome('racecar'))
