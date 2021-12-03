@@ -2,17 +2,23 @@ def gamma_epsilon_rates(filename):
         
     with open(filename) as f:
         lines = f.readlines()
+        binary_len = len(lines[0].strip())
         d = {}
-        for idx in range(len(lines[0].strip())):
+
+        # create a dict of keys that are ints from (0, len binary item) with values of 0
+        # assumes all binary items are the same len which was true for today's exercise
+        # keys are sort of backward, in that key 0 is the leftmost (highest num) in binary, but works for today
+        for idx in range(binary_len):
             d[idx] = 0
 
+        # increase values in dict for each position in the binary number
         for l in lines:
             for idx, val in enumerate(l.strip()):
                 d[idx] += int(val) # either 1 or 0
     
     gamma_rate = ''
     epsilon_rate = ''
-    for i in range(12):
+    for i in range(binary_len):
         # check if 1 is more common or 0
         if float(d[i]) > float(len(lines)) / 2.:
             gamma_rate += '1'
@@ -21,7 +27,7 @@ def gamma_epsilon_rates(filename):
             gamma_rate += '0'
             epsilon_rate += '1'
 
-    return float(int(gamma_rate,2)) * float(int(epsilon_rate,2))
+    return int(gamma_rate,2) * int(epsilon_rate,2)
     
 
 def ogr_csr(filename):
@@ -84,7 +90,7 @@ def ogr_csr(filename):
             pos += 1
             count = 0
     
-    return float(int(ocr,2)) * float(int(csr,2))
+    return int(ocr,2) * int(csr,2)
 
-print(ogr_csr('input/3_binary.txt'))
 print(gamma_epsilon_rates('input/3_binary.txt'))
+print(ogr_csr('input/3_binary.txt'))
