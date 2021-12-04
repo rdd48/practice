@@ -3,7 +3,7 @@ import numpy as np
 class BingoBoard():
     def __init__(self, board_input):
         self.board = np.array(board_input)
-        self.board = self.board.astype('float')
+        # self.board = self.board.astype('float')
     
     def print_board(self):
         print(self.board)
@@ -40,25 +40,25 @@ def process_input(filename):
         boards = []
         for idx in range(1, len(lines)-1, 5):
             str_board = [lst.split() for lst in lines[idx:idx+5]]
-            int_board = [list(map(int, i)) for i in str_board]
-            boards.append(BingoBoard(int_board))
+            float_board = [list(map(float, i)) for i in str_board]
+            boards.append(BingoBoard(float_board))
         
         return pulls, boards
 
 def i_win(filename):
     pulls, boards = process_input(filename)
-    pulls = [int(p) for p in pulls]
+    pulls = [float(p) for p in pulls]
 
     for p in pulls:
         for b in boards:
             b.remove_pull(p)
             if b.check_win():
                 # b.print_board()
-                return int(b.sum_all_remaining_tiles()) * p
+                return int(b.sum_all_remaining_tiles() * p)
         
 def squid_wins(filename):
     pulls, boards = process_input(filename)
-    pulls = [int(p) for p in pulls]
+    pulls = [float(p) for p in pulls]
 
     boards_to_remove = []
 
@@ -74,7 +74,7 @@ def squid_wins(filename):
 
                 if len(boards) == 0:
                     # b.print_board()
-                    return int(btr.sum_all_remaining_tiles()) * p
+                    return int(btr.sum_all_remaining_tiles() * p)
 
         boards_to_remove = []
 
