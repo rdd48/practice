@@ -31,7 +31,7 @@ def gamma_epsilon_rates(filename):
     
 
 def ogr_csr(filename):
-    # org = oxygen generator rating
+    # ogr = oxygen generator rating
     # csr = co2 scrubber rating
 
     with open(filename) as f:
@@ -39,26 +39,26 @@ def ogr_csr(filename):
         lines = [l.strip() for l in lines]
         max_len = len(lines[0].strip())
         
-        remaining_ocr = lines.copy()
+        remaining_ogr = lines.copy()
         remaining_csr = lines.copy()
 
     pos = 0
     count = 0
     
     while True:
-        for i in remaining_ocr:
+        for i in remaining_ogr:
             count += int(i[pos])
         
-        if float(count) >= float(len(remaining_ocr)) / 2.:
-            keep_val_ocr = '1'
+        if float(count) >= float(len(remaining_ogr)) / 2.:
+            keep_val_ogr = '1'
         else:
-            keep_val_ocr = '0'
+            keep_val_ogr = '0'
 
-        remaining_ocr = [i for i in remaining_ocr if i[pos] == keep_val_ocr]
+        remaining_ogr = [i for i in remaining_ogr if i[pos] == keep_val_ogr]
         
-        if len(remaining_ocr) == 1:
-            ocr = remaining_ocr[0]
-            # print(ocr)
+        if len(remaining_ogr) == 1:
+            ogr = remaining_ogr[0]
+            # print(ogr)
             break
         elif pos+1 > max_len:
             return 'error: did not find a solution'
@@ -90,7 +90,7 @@ def ogr_csr(filename):
             pos += 1
             count = 0
     
-    return int(ocr,2) * int(csr,2)
+    return int(ogr,2) * int(csr,2)
 
 print(gamma_epsilon_rates('input/3_binary.txt'))
 print(ogr_csr('input/3_binary.txt'))
