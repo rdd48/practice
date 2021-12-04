@@ -47,18 +47,18 @@ def process_input(filename):
 
 def i_win(filename):
     pulls, boards = process_input(filename)
+    pulls = [int(p) for p in pulls]
 
     for p in pulls:
-        p = int(p)
         for b in boards:
             b.remove_pull(p)
             if b.check_win():
-                b.print_board()
+                # b.print_board()
                 return int(b.sum_all_remaining_tiles()) * p
         
 def squid_wins(filename):
     pulls, boards = process_input(filename)
-    pulls = [float(p) for p in pulls]
+    pulls = [int(p) for p in pulls]
 
     boards_to_remove = []
 
@@ -72,13 +72,11 @@ def squid_wins(filename):
             for btr in boards_to_remove:
                 boards.remove(btr)
 
-        if len(boards) == 0:
-            b.print_board()
-            return int(b.sum_all_remaining_tiles()) * p
+                if len(boards) == 0:
+                    # b.print_board()
+                    return int(btr.sum_all_remaining_tiles()) * p
 
         boards_to_remove = []
-        
 
-# print(i_win('input/test.txt'))
-# print(i_win('input/4_bingo.txt'))
+print(i_win('input/4_bingo.txt'))
 print(squid_wins('input/4_bingo.txt'))
