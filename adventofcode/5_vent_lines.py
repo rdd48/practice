@@ -22,7 +22,7 @@ def process_input(filename):
 def get_line_points(coord, check_diagonal=False):
     # coord is a list of 2 lists
     # each inner list is in the form [x,y]
-    # return a list of list line coordinates
+    # return a list of len-2 list line coordinates
 
     startx, starty = coord[0][0], coord[0][1]
     endx, endy = coord[1][0], coord[1][1]
@@ -50,31 +50,23 @@ def get_line_points(coord, check_diagonal=False):
         # case where line is diagonal
         if abs(startx - endx) == abs(starty - endy):
             new_coords = []
-            if startx < endx and starty < endy:
-                counter = 0
-                for i in range(startx, endx + 1):
-                    new_coords.append([i, starty + counter])
-                    counter += 1
-                return new_coords
-            elif startx > endx and starty > endy:
-                counter = 0
-                for i in range(endx, startx + 1):
-                    new_coords.append([i, endy + counter])
-                    counter += 1
-                return new_coords
-            elif startx < endx and starty > endy:
-                counter = 0
-                for i in range(startx, endx + 1):
-                    new_coords.append([i, starty - counter])
-                    counter += 1
-                return new_coords
-            elif startx > endx and starty < endy:
-                counter = 0
-                for i in range(endx, startx + 1):
-                    new_coords.append([i, endy - counter])
-                    counter += 1
-                return new_coords
 
+            # pos slope from down/left to up/right
+            if startx < endx and starty < endy:
+                return [[val, starty+idx] for (idx, val) in enumerate(range(startx, endx + 1))]
+
+            # neg slope from up/right to down/left
+            elif startx > endx and starty > endy:
+                return [[val, endy+idx] for (idx, val) in enumerate(range(endx, startx+1))]
+
+            # neg slope from up/left to down/right
+            elif startx < endx and starty > endy:
+                return [[val, starty-idx] for (idx, val) in enumerate(range(startx, endx + 1))]
+
+            elif startx > endx and starty < endy:
+                return [[val, endy - idx] for (idx, val) in enumerate(range(endx, startx + 1))]
+
+    # if not straight or 45-degree diagonal, return an empty list
     return []
 
 
@@ -86,18 +78,18 @@ def main(filename, check_diagonal=False):
     for c in all_coords:
         points = get_line_points(c, check_diagonal)
         if points:
-            str_points = [f"{i[0]},{i[1]}" for i in points]
-            for sp in str_points:
-                if sp in overlaps:
-                    overlaps[sp] += 1
-                    if overlaps[sp] == 2:
+            # str_points = [f"{i[0]},{i[1]}" for i in points]
+            tuple_points = [(i[0], i[1]) for i in points]
+            for tp in tuple_points:
+                if tp in overlaps:
+                    overlaps[tp] += 1
+                    if overlaps[tp] == 2:
                         answer += 1
                 else:
-                    overlaps[sp] = 1
+                    overlaps[tp] = 1
 
     return answer
 
 
 print(main("input/5_lines.txt"))
 print(main("input/5_lines.txt", check_diagonal=True))
-
