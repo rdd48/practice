@@ -19,7 +19,7 @@ def process_input(filename):
     return all_coords
 
 
-def get_line_points(coord, diagonal=False):
+def get_line_points(coord, check_diagonal=False):
     # coord is a list of 2 lists
     # each inner list is in the form [x,y]
     # return a list of list line coordinates
@@ -38,15 +38,16 @@ def get_line_points(coord, diagonal=False):
         else:
             return [[startx, i] for i in range(endy, starty + 1)]
 
-    # line is horizontal
+    # case where line is horizontal
     elif starty == endy:
         if startx < endx:
             return [[i, starty] for i in range(startx, endx + 1)]
         else:
             return [[i, starty] for i in range(endx, startx + 1)]
 
-    # line is diagonal
-    if diagonal:
+    if check_diagonal:
+
+        # case where line is diagonal
         if abs(startx - endx) == abs(starty - endy):
             new_coords = []
             if startx < endx and starty < endy:
@@ -77,13 +78,13 @@ def get_line_points(coord, diagonal=False):
     return []
 
 
-def main(filename, diagonal=False):
+def main(filename, check_diagonal=False):
     all_coords = process_input(filename)
     answer = 0
     overlaps = {}
 
     for c in all_coords:
-        points = get_line_points(c, diagonal)
+        points = get_line_points(c, check_diagonal)
         if points:
             str_points = [f"{i[0]},{i[1]}" for i in points]
             for sp in str_points:
@@ -98,5 +99,5 @@ def main(filename, diagonal=False):
 
 
 print(main("input/5_lines.txt"))
-print(main("input/5_lines.txt", diagonal=True))
+print(main("input/5_lines.txt", check_diagonal=True))
 
