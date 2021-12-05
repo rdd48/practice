@@ -1,6 +1,3 @@
-import numpy as np
-
-
 def process_input(filename):
     with open(filename) as f:
         lines = f.readlines()
@@ -100,5 +97,6 @@ def main(filename, diagonal=False):
     return answer
 
 
+print(main("input/5_lines.txt"))
 print(main("input/5_lines.txt", diagonal=True))
 
