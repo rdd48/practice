@@ -55,7 +55,7 @@ def get_line_points(coord, check_diagonal=False):
             if startx < endx and starty < endy:
                 return [[val, starty+idx] for (idx, val) in enumerate(range(startx, endx + 1))]
 
-            # neg slope from up/right to down/left
+            # pos slope from up/right to down/left
             elif startx > endx and starty > endy:
                 return [[val, endy+idx] for (idx, val) in enumerate(range(endx, startx+1))]
 
@@ -63,6 +63,7 @@ def get_line_points(coord, check_diagonal=False):
             elif startx < endx and starty > endy:
                 return [[val, starty-idx] for (idx, val) in enumerate(range(startx, endx + 1))]
 
+            # neg slope from down/right to up/left
             elif startx > endx and starty < endy:
                 return [[val, endy - idx] for (idx, val) in enumerate(range(endx, startx + 1))]
 
