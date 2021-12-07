@@ -13,6 +13,9 @@ class Solution:
         Append open parentheses to p_str. If we encounter a closed parentheses, check that the most
         recent paranthesis character was its open counterpart. If so, remove this open paren character
         from p_str.  If not, fail it. Finally, check at the end that all open parens are closed, i.e. len(p_str) == 0
+
+        Runtime: 24 ms, faster than 96.19% of Python3 online submissions for Valid Parentheses.
+        Memory Usage: 14.2 MB, less than 65.53% of Python3 online submissions for Valid Parentheses.
         """
         
         open_b = '([{'
