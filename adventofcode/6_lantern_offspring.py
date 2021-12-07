@@ -47,10 +47,10 @@ def fish_offspring(filename, days):
 
 
 # part one
-print(fish_offspring('input/test.txt', 18))
-print(fish_offspring('input/test.txt', 80))
+# print(fish_offspring('input/test.txt', 18))
+# print(fish_offspring('input/test.txt', 80))
 print(fish_offspring('input/6_lanternfish.txt', 80))
 
 # part two
-print(fish_offspring('input/test.txt', 256))
+# print(fish_offspring('input/test.txt', 256))
 print(fish_offspring('input/6_lanternfish.txt', 256))
