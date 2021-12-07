@@ -1,6 +1,3 @@
-from math import factorial
-
-
 def process_input(filename):
     with open(filename) as f:
         lines = f.readlines()
