@@ -90,9 +90,9 @@ def main_2(filename):
 
 
 # part 1
-print(main('input/test.txt'))
+# print(main('input/test.txt'))
 print(main('input/7_crabs.txt'))
 
 # part 2
-print(main_2('input/test.txt'))
+# print(main_2('input/test.txt'))
 print(main_2('input/7_crabs.txt'))
