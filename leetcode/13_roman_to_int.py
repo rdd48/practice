@@ -1,5 +1,10 @@
 class Solution:
     def romanToInt(self, s: str) -> int:
+
+        """
+        Runtime: 44 ms, faster than 84.88% of Python3 online submissions for Roman to Integer.
+        Memory Usage: 14.2 MB, less than 84.56% of Python3 online submissions for Roman to Integer.
+        """
         
         d = {
             'I': 1,
