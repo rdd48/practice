@@ -1,4 +1,5 @@
 def process_input(filename):
+    """process input into a list of the input lines"""
     with open(filename) as f:
         lines = f.readlines()
         paren_list = [l.strip() for l in lines]
@@ -6,6 +7,10 @@ def process_input(filename):
 
 
 def check_paren(s, part_one=True):
+    """
+    For part one: we want to get the offending closed parentheses that fails the line. If line is ok, return False.
+    For part two: we want the remaining open parens that need to be closed for lines that work. If line fails, return False.
+    """
 
     d = {
         ')': '(',
@@ -23,8 +28,7 @@ def check_paren(s, part_one=True):
                 p_str = p_str[:-1]
             else:
                 return ch if part_one else False
-
-        if ch in d.values():  # d.values() = open brackets
+        elif ch in d.values():  # d.values() = open brackets
             p_str += ch
 
     return False if part_one else p_str
@@ -37,7 +41,8 @@ def main(filename):
 
     for s in paren_list:
         paren = check_paren(s)
-        if paren:
+        if paren: 
+            # i.e., if the string failed, paren is the character that failed
             ans_str += paren
 
     solution = (ans_str.count(')')) * 3
