@@ -9,7 +9,7 @@ def process_input(filename):
 
 
 def check_neighbors(val, x, y, a, top, right, bottom, left):
-    # return True if all neighbors are lower
+    # return the value if all neighbors are lower
     if not top:
         top_val = a[x-1][y]
         if val >= top_val:
@@ -48,7 +48,6 @@ def is_edge(x, y, a):
 
 
 def grow_recur(x, y, a, top, right, bottom, left, basin_points=None):
-    # x, y, a, top, right, bottom, left = lp[0], lp[1], lp[2], lp[3], lp[4], lp[5], lp[6]
 
     if not basin_points:
         basin_points = [(x, y)]
