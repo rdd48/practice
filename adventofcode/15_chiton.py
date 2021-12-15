@@ -1,6 +1,3 @@
-import numpy as np
-
-
 def process_input(filename):
     a = []
     with open(filename) as f:
@@ -62,19 +59,6 @@ def get_all_neighbors(x, y, a):
     return vals
 
 
-def get_lowest_cost_nbr(x, y, a, processed):
-    nbrs = get_right_bottom_neighbors(x, y, a)
-    costs = {n: a[n[0]][n[1]] for n in nbrs}
-    lowest_cost = float('inf')
-    lowest_cost_nbr = None
-    for nbr, cost in costs.items():
-        if cost < lowest_cost and cost not in processed:
-            lowest_cost = cost
-            lowest_cost_nbr = nbr
-
-    return lowest_cost_nbr
-
-
 def main(filename):
     a = process_input(filename)
 
@@ -85,7 +69,7 @@ def main(filename):
     costs[(0, 0)] = 0
     next_nodes = []
     nodes = [(0, 0)]
-    # paths = [[(0, 0), n] for n in first_nbrs]
+
     while len(nodes) > 0:
         for curr_node in nodes:
             nbrs = get_right_bottom_neighbors(curr_node[0], curr_node[1], a)
@@ -98,14 +82,8 @@ def main(filename):
                 if n not in next_nodes:
                     next_nodes.append(n)
 
-        # print(next_nodes)
-        # if len(next_nodes) >= 4:
-        #     exit()
         nodes = next_nodes
         next_nodes = []
-
-    # for k, v in costs.items():
-    #     print(k, v)
 
     return costs[(len(a)-1, len(a[0])-1)]
 
@@ -165,11 +143,33 @@ def main_2(filename):
         if counter % 10 == 0:
             print(counter, len(nodes))
 
-    # print(costs)
+    return costs[(len(a)-1, len(a[0])-1)]
+
+    # # found this basic solution below on github, seems basically the same but is a bit faster? not sure why
+    # queue = [(0, 0)]
+    # counter = 0
+    # while queue:
+    #     counter += 1
+    #     current = queue.pop(0)
+    #     neighbors = get_all_neighbors(current[0], current[1], a)
+    #     for neighbor in neighbors:
+    #         # if the current best cost to reach the neighbor is greater than the
+    #         # cost to reach the current node plus the weight (risk) of the neighbor,
+    #         # update the cost to reach the neighbor to the new minimum cost
+    #         # and add the neighbor to the queue
+    #         neighbor_cost = costs[(neighbor[0], neighbor[1])]
+    #         cost_to_neighbor = costs[current[0],
+    #                                  current[1]] + a[neighbor[0]][neighbor[1]]
+    #         if neighbor_cost > cost_to_neighbor:
+    #             costs[(neighbor[0], neighbor[1])] = cost_to_neighbor
+    #             queue.append(neighbor)
+    #     if counter % 10 == 0:
+    #         print(counter, len(queue))
+    # return costs[(len(a)-1, len(a[0])-1)]
 
 
 # print(main('input/test.txt'))
-print(main('input/15_chiton.txt'))
+# print(main('input/15_chiton.txt'))
 
 # print(main_2('input/test.txt'))
 print(main_2('input/15_chiton.txt'))
