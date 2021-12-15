@@ -5,8 +5,7 @@ def process_input(filename):
         lines = f.readlines()
         for l in lines:
             if l.startswith('fold'):
-                fold_axis = l.strip().split(' ')
-                fold_axis = fold_axis[-1]
+                fold_axis = l.strip().split(' ')[-1]
                 fold_direction = fold_axis.split('=')[0]
                 fold_dist = int(fold_axis.split('=')[1])
                 folds.append([fold_direction, fold_dist])
@@ -44,6 +43,7 @@ def main(filename, part_one=True):
         dots = new_dots
         new_dots = []
 
+        # part one says: fold just once
         if part_one:
             return len(dots)
 
