@@ -139,7 +139,5 @@ def main_2(filename, part_two=False):
 
     return version_total
 
-
-
 print(main_2('input/16_binary_code.txt'))
 print(main_2('input/16_binary_code.txt', part_two=True))
