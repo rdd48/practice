@@ -121,20 +121,23 @@ def main(filename):
     scanners = process_input(filename)
     found = {0: scanners[0]}
     found_dists = {0: (0, 0, 0)}
+    found_tested = []
 
     # for s1 in range(1, len(scanners)):
     while len(found) < len(scanners):
         for found_idx, found_scanner in found.items():
-            matches = find_match(found_scanner, found.keys(), scanners)
-            if not matches:
-                continue
-            else:
-                break
+            if found_idx not in found_tested:
+                matches = find_match(found_scanner, found.keys(), scanners)
+                if not matches:
+                    continue
+                else:
+                    break
 
+        found_tested.append(found_idx)
         for match in matches:
             found[match[0]] = match[1]
             found_dists[match[0]] = match[2]
-            print(match[2])
+            print(f'{match[0]}: {match[2]}')
 
     matched = []
     for k in found.keys():
