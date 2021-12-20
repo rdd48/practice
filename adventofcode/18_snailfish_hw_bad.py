@@ -163,7 +163,7 @@ def magnitude(strlst):
     i = 0
     while True:
         if ',' not in strlst:
-            return strlst
+            return int(strlst)
         i += 1
         if is_str_int(strlst[i]) is not None:
             new_i = i+1
@@ -198,8 +198,6 @@ def magnitude(strlst):
             break
         else:
             continue
-
-    return ans
 
 
 def main(filename):
@@ -265,6 +263,6 @@ def main_2(filename):
 
 
 # print(main('input/test.txt'))
-print(main('input/17_snailfish.txt'))
+print(main('input/18_snailfish.txt'))
 # print(main_2('input/test.txt'))
-print(main_2('input/17_snailfish.txt'))
+print(main_2('input/18_snailfish.txt'))
