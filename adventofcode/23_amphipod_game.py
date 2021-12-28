@@ -103,7 +103,8 @@ def move_amphipod(dir, total_score):
                 total_score += scores[amph_moving.char]
 
     elif dir == 'down':
-        if amph_moving.ypos < 2 and amph_moving.xpos in (2, 4, 6, 8): # need to update for round 2
+        y_min = 2 if round_num == 1 else 4
+        if amph_moving.ypos < y_min and amph_moving.xpos in (2, 4, 6, 8):
             if not occupied[(amph_moving.xpos, amph_moving.ypos + 1)]:
                 occupied[(amph_moving.xpos, amph_moving.ypos)] = False
                 occupied[(amph_moving.xpos, amph_moving.ypos + 1)] = True
