@@ -55,19 +55,20 @@ unicodes = {
     'D': 68,
 }
 
+
 class Amphipod:
     def __init__(self, char, start_xpos, start_ypos, selected):
         self.char = char
-        self.xpos = start_xpos # row
-        self.ypos = start_ypos # col
+        self.xpos = start_xpos  # row
+        self.ypos = start_ypos  # col
         self.selected = selected
-    
+
     def reselect(self):
         if self.selected == True:
             self.selected = False
         else:
             self.selected = True
-    
+
     def move_up(self):
         self.ypos -= 1
 
@@ -92,6 +93,7 @@ def reselect_amphipod():
     amph_select.reselect()
     amphipods[next_pos] = amph_select
 
+
 def move_amphipod(dir, total_score):
     amph_moving = amphipods[sele]
     if dir == 'up':
@@ -112,7 +114,7 @@ def move_amphipod(dir, total_score):
                 total_score += scores[amph_moving.char]
 
     elif dir == 'left':
-        if amph_moving.xpos > 0 and amph_moving.ypos == 0: 
+        if amph_moving.xpos > 0 and amph_moving.ypos == 0:
             if not occupied[(amph_moving.xpos - 1, amph_moving.ypos)]:
                 occupied[(amph_moving.xpos, amph_moving.ypos)] = False
                 occupied[(amph_moving.xpos - 1, amph_moving.ypos)] = True
@@ -126,18 +128,19 @@ def move_amphipod(dir, total_score):
                 occupied[(amph_moving.xpos + 1, amph_moving.ypos)] = True
                 amph_moving.move_right()
                 total_score += scores[amph_moving.char]
-    
-    return total_score
 
+    return total_score
 
 
 def draw_char_on_win(amph):
     letter_font = pygame.font.SysFont('Helvetica', 55)
-    color = (0, 255, 0) if amph.selected else (255, 255, 255)   
+    color = (0, 255, 0) if amph.selected else (255, 255, 255)
     text = letter_font.render(amph.char, 1, color)
 
     xpos = side_bumper + ((amph.xpos % cols) * box_width) + 10
-    ypos = side_bumper + header + ((amph.xpos // cols) * box_height) + ((amph.ypos) * (side_bumper + box_height)) + 10
+    ypos = side_bumper + header + \
+        ((amph.xpos // cols) * box_height) + \
+        ((amph.ypos) * (side_bumper + box_height)) + 10
 
     win.blit(text, (xpos, ypos))
 
@@ -154,7 +157,8 @@ def draw_window(game_started, total_score):
         box_xpos = side_bumper + ((i % cols) * box_width)
         box_ypos = side_bumper + header + ((i // cols) * box_height)
 
-        button_border = pygame.Rect(box_xpos, box_ypos, box_width-side_bumper, box_height)
+        button_border = pygame.Rect(
+            box_xpos, box_ypos, box_width-side_bumper, box_height)
         pygame.draw.rect(win, (0, 0, 18), button_border)
         pygame.draw.rect(win, (120, 120, 120), button_border, width=1)
 
@@ -162,7 +166,8 @@ def draw_window(game_started, total_score):
             num_cols = 2 if round_num == 1 else 4
             for j in range(num_cols):
                 low_box_ypos = box_ypos + ((j+1) * (side_bumper + box_height))
-                lower_button = pygame.Rect(box_xpos, low_box_ypos, box_width-side_bumper, box_height)
+                lower_button = pygame.Rect(
+                    box_xpos, low_box_ypos, box_width-side_bumper, box_height)
                 pygame.draw.rect(win, (0, 0, 18), lower_button)
                 pygame.draw.rect(win, (120, 120, 120), lower_button, width=1)
 
@@ -171,12 +176,11 @@ def draw_window(game_started, total_score):
                     selected = True if i == 2 and j == 0 else False
                     amph = Amphipod(chr(unicodes[dec_val]), i, j+1, selected)
                     amphipods.append(amph)
-                
+
         for amph in amphipods:
             draw_char_on_win(amph)
-                    
-    pygame.display.update()
 
+    pygame.display.update()
 
 
 if __name__ == '__main__':
@@ -197,18 +201,17 @@ if __name__ == '__main__':
             sele = 0
 
             occupied = {(x, 0): False for x in range(11)}
-            for row in (2,4,6,8):
+            for row in (2, 4, 6, 8):
                 if round_num == 1:
-                    for col in range(1,3):
+                    for col in range(1, 3):
                         occupied[(row, col)] = True
                 elif round_num == 2:
-                    for col in range(1,5):
+                    for col in range(1, 5):
                         occupied[(row, col)] = True
-            
+
             game_started = True
 
         clock.tick(fps)
-
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -234,8 +237,8 @@ if __name__ == '__main__':
                     amphipods = []
                     total_score = 0
                     game_started = False
+                    round_num = 1
 
-                
                 elif event.key == pygame.K_2:
                     amphipods = []
                     total_score = 0
