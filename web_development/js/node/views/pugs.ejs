@@ -1,0 +1,11 @@
+<%- include('partials/head') %> 
+<%- include('partials/navbar') %> 
+<body>
+    <h1>All pugs!</h1>
+    <ul>
+    <% for (let pug of pugs) { %> 
+        <li><%= pug %></li>
+    <% } %>
+    </ul>
+</body>
+</html>

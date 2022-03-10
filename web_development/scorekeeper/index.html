@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- in udemy he used bulma for styling -->
+<!-- (and his app looks nicer) -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="app.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <section>
+        <img src="Clean-Ping-Pong-Paddle.jpeg" alt="ping pong">
+    </section>
+    <div id="header">
+        <h4>Ping Pong Score Keeper</h4>
+    </div>
+    <div class="score_section">
+        <p class="score"><span id="pl1">0</span> to <span id="pl2">0</span></p>
+        <p>Use the buttons below to keep score</p>
+        <label for="points">Playing To</label>
+        <select name="points" id="points">
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+        </select>
+    </div>
+
+    <div class="button_div">
+        <button class="b-p1">+1 Player One</button>
+        <button class="b-p2">+1 Player Two</button>
+        <button class="b-reset">Reset</button>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>

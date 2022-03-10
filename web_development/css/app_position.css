@@ -1,0 +1,32 @@
+div {
+    width: 100px;
+    height: 100px;
+    background-color: #3d405b;
+    border: 2px solid black;
+    margin: 10px;
+    display: inline-block;
+}
+
+#static #middle {
+    background-color: lightseagreen;
+}
+
+#relative #middle {
+    background-color: seagreen;
+    position: relative;
+    top: 100px;
+}
+
+#absolute #middle {
+    /* seems like this inherits its position from its parent? */
+    background-color: darkolivegreen;
+    position: absolute;
+    top: 100px;
+}
+
+#absolute #middle {
+    /* position relative to containing block but stays at same pos when scrolling*/
+    background-color: red;
+    position: fixed;
+    top: 100px;
+}

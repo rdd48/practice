@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap testing</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <!-- for icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
+
+</head>
+
+<body style="padding-top: 60px;">
+    <!-- navbar: https://getbootstrap.com/docs/5.0/components/navbar/ -->
+    <!-- fixed-top attr option sets things to stay when scrolling. sticky-top sticks after an element and stays on top -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    <a class="nav-link" href="#">Features</a>
+                    <a class="nav-link" href="#">Pricing</a>
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- bootstrap styles specific class names. like container e.g.
+    e.g. https://getbootstrap.com/docs/5.1/layout/containers/ -->
+    <div class="container-fluid">
+        <h1>Placeholder</h1>
+        <p class="border rounded border-success shadow">Lorem ipsum dolor sit, amet consectetur adipisicing elit. In,
+            voluptatum nostrum. Quam,
+            impedit
+            dolorum.
+            Exercitationem perferendis sit sapiente, illo voluptatibus at, laudantium eaque harum, molestiae nemo
+            reiciendis
+            fuga illum veritatis.</p>
+    </div>
+
+    <!-- finding buttons: https://getbootstrap.com/docs/5.1/components/buttons/ -->
+    <button type="button" class="btn btn-primary">Primary</button>
+    <button type="button" class="btn btn-secondary">Secondary</button>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+
+    <!-- typography tab under getboostrap -> get started -> content -> typography -->
+    <p class="h4">h4. Bootstrap heading</p>
+    <figure class="text-end ">
+        <!-- text-right could be text-left, -center, -end etc -->
+        <blockquote class="blockquote">
+            <p>Cascara is kewl</p>
+        </blockquote>
+        <figcaption class="blockquote-footer">
+            Someone famous in <cite title="Source Title">Starbucks</cite>
+        </figcaption>
+    </figure>
+
+    <!-- colors & alignment can stack with other classes if separated by spaces? wow! -->
+    <!-- colors: https://getbootstrap.com/docs/5.1/utilities/colors/ -->
+    <h1 class="display-4 text-center text-white bg-success bg-opacity-75">Display 4</h1>
+
+    <!-- badges: spans that are good for labeling (like dislaying # notifications e.g.) -->
+    <!-- alerts: top banners. dismiss via  -->
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">Danger!
+        <button type="button" aria-label="Close" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <!-- bootstrap grid system. 12 column units to work with -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-6 bg-success">6 unit columns</div>
+            <div class="col-6 bg-danger">6 unit columns</div>
+        </div>
+        <div class="row">
+            <div class="col-4 bg-success">4 unit columns</div>
+            <div class="col-8 bg-warning">8 unit columns</div>
+        </div>
+        <div class="row">
+            <div class="col bg-primary">I am auto-sized</div>
+            <div class="col bg-success">I am auto-sized</div>
+        </div>
+    </div>
+
+    <h2 class="display-4">Responsive Grid</h2>
+    <div class="row">
+        <!-- i.e. above medium breakpoint, take up 6 units (below will take 12 default)-->
+        <!-- & above xlarge breakpoint, take up 4 units -->
+        <div class="col-md-6 col-xl-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui sequi rerum dicta,
+            magni
+            dolores magnam quos ab autem quaerat cupiditate dolorum fugiat nisi iste quidem sit voluptate nostrum,
+            veritatis iure!</div>
+        <div class="col-md-6 col-xl-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit in illo dolorum
+            officia
+            quos sint dolore cupiditate! Dolorum eos maxime, adipisci quis perferendis, qui iste dolor optio veritatis
+            voluptates inventore.</div>
+        <div class="col-md-6 col-xl-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit in illo dolorum
+            officia
+            quos sint dolore cupiditate! Dolorum eos maxime, adipisci quis perferendis, qui iste dolor optio veritatis
+            voluptates inventore.</div>
+    </div>
+
+    <!-- boostrap uses flexbox (at least for the rows) so can use align-items, etc -->
+    <div class="row justify-content-around">
+        <!-- i.e. above medium breakpoint, take up 6 units (below will take 12 default)-->
+        <!-- & above xlarge breakpoint, take up 4 units -->
+        <div class="col-4 bg-primary">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Qui
+            sequi rerum dicta,
+            magni
+            dolores magnam quos ab autem quaerat cupiditate dolorum fugiat nisi iste quidem sit voluptate nostrum,
+            veritatis iure!</div>
+        <div class="col-4 bg-secondary">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Impedit in illo dolorum
+            officia
+            quos sint dolore cupiditate! Dolorum eos maxime, adipisci quis perferendis, qui iste dolor optio veritatis
+            voluptates inventore.</div>
+    </div>
+    <!-- for images that you want to resize, use <img class="img-fluid" src="link" /> -->
+
+    <!-- form control in bootstrap -->
+    <div class="container">
+        <form action="#nowhere">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="state">State</label>
+                <select name="state" id="state" class="form-control">
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                </select>
+            </div>
+
+            <!-- search getboostrap for checkbox (class="custom-control custom-checkbox" or class="form-check") -->
+        </form>
+
+        <!-- bootstrap icons -->
+        <!-- https://icons.getbootstrap.com/ -->
+        <!-- more icons on https://fontawesome.com/ -->
+        <button class="btn btn-lg btn-danger">Delete <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                <path
+                    d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                <path fill-rule="evenodd"
+                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+            </svg></button>
+
+        <!-- input-groups have nice formatting w/ icons: https://getbootstrap.com/docs/5.0/forms/input-group/ -->
+        <div class="input-group mb-3">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon1">Button</button>
+            <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon"
+                aria-describedby="button-addon1">
+        </div>
+
+        <!-- display can make something invisible, which might be nice when resizing -->
+        <!-- https://getbootstrap.com/docs/5.0/utilities/display/ -->
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+        <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+
+    </div>
+</body>
+
+</html>

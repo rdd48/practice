@@ -1,0 +1,71 @@
+<!-- ! then tab autoloads an html skeleton!!-->
+<!-- shift + option + f autoindents everthing!-->
+<!-- Comments can also be done in vs code with command + / -->
+<!-- blah blah -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- // includes things like imported scripts, CSS -->
+    <title>Title (for browser heading)</title>
+</head>
+
+<body>
+    <h1>Chicken</h1>
+    <h2>h2 thru h6 are subheaders</h2>
+    <p>This is a paragraph with <b>bolded chicken text</b></p>
+
+    <ul>
+        <li>First element of unordered list</li>
+        <li>Unordered list: think bullets</li>
+        <li>Shift+Opt+Down duplicates this line</li>
+        <li>Shift+Opt+Down duplicates this line</li>
+    </ul>
+    <ol>
+        <li>This is an element of an ordered list</li>
+        <li>Ordered list: numbered bullets
+            <ul>
+                <li>This is a nested unordered list</li>
+                <li>inside an ordered list</li>
+            </ul>
+        </li>
+    </ol>
+    <div>
+        <!-- divs are generic elements that separate content into block-level elements -->
+        <!-- spans are similar but inline, not block -->
+        <a href="http://www.google.com">A = anchor tab, goes to href attribute link</a>
+        <img src="pictures/test.png" alt="text for screen readers">
+    </div>
+
+    <!-- style attr can be used to add css styling inline, but not as ideal -->
+    <!-- style element can also be used -->
+    <div style="color: green">This is green text</div>
+    <style>
+        div {
+            color: green;
+            /* this colors all divs green */
+        }
+    </style>
+
+
+    <!-- some rare elements -->
+    <hr>
+    <!-- <hr> makes a horizontal break, doesn't have a closing tag -->
+    <br>
+    <!-- <br> makes line breaks after lines, equivalent to making different paragraphs -->
+    <!-- <sup></sup> is superscript, <sub></sub> is subscript -->
+
+    <!-- html elements: start with &, end with ;, refer to differnt characters -->
+    <p>&lt; &gt;</p>
+
+    <!-- semantic html: the idea that you use more descriptive elements
+    e.g.: instead of only using divs, use elements like main, nav, header, footer:
+    all functionally the same as div, but more descriptive -->
+    <!-- e.g: section, article, nav, main, header, footer, aside, summary, details -->
+
+    <!-- Emmet is a VScode add in that easily makes html elements using shortcuts: https://docs.emmet.io/ -->
+
+</body>
+
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forms demo</title>
+</head>
+
+<body>
+    <!-- action attr specifies where to send form data -->
+    <!-- method attr species type of request, e.g. get or post -->
+    <form action="/next_url">
+        <!-- placeholder attr shows suggestion text in text field -->
+        <!-- label text can get the for attr to interact with the form -->
+        <!-- label element also helps annotate text for developer or screenreader -->
+        <!-- MDN has all types of type options for input forms -->
+        <p>
+            <label for="test">Test Label</label>
+            <input type="checkbox" name="testname" id="test">
+        </p>
+        <p>
+            <label for="username">Enter your username:</label>
+            <input type="text" placeholder="Enter your username" id="username">
+        </p>
+        <input type="password">
+        <input type="color">
+
+        <button>This will submit the form (inside tag)</button>
+        <button type="button">This will not (type attribute on button, not defaulted "submit")</button>
+
+    </form>
+    <button>This will not submit the form (outside tag)</button>
+
+    <form action="/next_url">
+        <input type="checkbox" name="agree_tos" id="agree" checked>
+        <label for="agree">I agree to everything</label>
+
+        <!-- radio buttons allow only one of multiple choices to be selected -->
+        <!-- this works when the name attr are identical -->
+        <!-- value is the submitted text to the server -->
+        <p>
+            <label for="1">Option 1</label>
+            <input type="radio" name="shared_name" id="1" value="submit_1">
+            <label for="2">Option 2</label>
+            <input type="radio" name="shared_name" id="2" value="submit_2">
+            <label for="3">Option 3</label>
+            <input type="radio" name="shared_name" id="3" value="submit_3">
+        </p>
+
+        <!-- dropdowns using select/option elements -->
+        <p>
+            <label for="select_element">Select from the dropdown</label>
+            <select name="select_element" id="select_element">
+                <option value="choice 1">Choice 1</option>
+                <option value="choice 2">Choice 2</option>
+                <!-- selected attr pre-selects an option -->
+                <option value="choice 3" selected>Choice 3</option>
+            </select>
+        </p>
+
+        <!-- ranges are like sliding bars -->
+        <!-- value attr == starting point and step attr == step size -->
+        <p>
+            <label for="range_test">Range</label>
+            <input type="range" name="range_level" id="range_test" min="1" max="10">
+        </p>
+
+        <p>
+            <label for="number_test">Number Selector</label>
+            <input type="number" id="number_test" min="1" max="10">
+        </p>
+
+        <p>
+            <label for="textarea_test">Text Area Test</label>
+            <textarea name="textarea_test" id="textarea_test" cols="30" rows="10"
+                placeholder="placeholder text"></textarea>
+        </p>
+
+        <button>Submit!</button>
+    </form>
+
+    <h2>Validations Demo</h2>
+    <form action="/dummy">
+        <!-- required attr tells you that something needs to be added -->
+        <!-- minlength / maxlength validate length of string -->
+        <!-- could use pattern attr for regex matching -->
+        <label for="username">Enter your username:</label>
+        <input type="text" id="username" required minlength="5" maxlength="10">
+        <button>Submit!</button>
+
+    </form>
+
+</body>
+
+</html>

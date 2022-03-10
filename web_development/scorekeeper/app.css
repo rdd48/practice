@@ -1,0 +1,90 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 2em;
+}
+
+img {
+    /* display: block;
+    margin-left: auto;
+    margin-right: auto; */
+    width: 90%;
+}
+
+
+section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div {
+    display: flex;
+    align-items: center;
+    border: 2px solid lightgray;
+    border-radius: 1em;
+    padding-left: 1em;
+    padding-bottom: 1em;
+}
+
+#header {
+    padding-bottom: 1px;
+}
+
+.score_section {
+    display: block;
+    /* text-align: center; */
+}
+
+.score {
+    font-size: 2.5em;
+    font-weight: 700;
+    margin: 10px;
+}
+
+label {
+    font-size: 1.5em;
+    font-weight: 700;
+}
+
+select {
+    font-size: 1.5em;
+    margin-left: 10px;
+    padding: 0px 20px;
+    border-radius: 1em;
+}
+
+button {
+    padding: 1em;
+    font-size: 1em;
+    color: white;
+    border: 1px solid white;
+    border-radius: 0.5em;
+}
+
+.b-p1 {
+    background-color: rgb(4, 255, 100);
+}
+
+.b-p2 {
+    background-color: rgb(0, 153, 255);
+}
+
+.b-reset {
+    background-color: rgb(255, 0, 106);
+}
+
+.button_div {
+    margin-top: 0.25em;
+    border: 0px solid white;
+}
+
+.color-win {
+    color: green;
+}
+
+.color-lose {
+    color: red;
+}

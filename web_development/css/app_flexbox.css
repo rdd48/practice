@@ -1,0 +1,58 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1 {
+    text-align: center;
+}
+
+#container {
+    background-color: #003049;
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    border: 5px solid #003049;
+
+    /* turn on flexbox */
+    display: flex;
+
+    /* change main axis. to go top-bottom, change to flex-direction: column or column-reverse */
+    flex-direction: row;
+
+    /* justify-content: can be center, flex-end, space-around, space-between, */
+    justify-content: space-around;
+
+    /* flex-wrap: wrap or wrap-reverse will ofc wrap elements (also no-wrap) is an option */
+    flex-wrap: wrap;
+
+    /* align-items: how to distribute across cross axis */
+    /* justify-content: how to align on main axis, align-items for cross axis */
+    align-items: flex-end;
+
+    /* align-content: details of distribution when wrapped */
+    align-content: center;
+
+    /* flex-basis: sets initial length (width or height depending on main axis) */
+    /* flex-grow:  */
+}
+
+div:nth-of-type(1) {
+    /* align-self can do individual aligning along cross like align-items does for group */
+    align-self: flex-start;
+
+    /* flex-grow: takes int values, grows into space proportionally to other flex-grows */
+    flex-grow: 1
+}
+
+div:nth-of-type(5) {
+    flex-grow: 3
+
+    /* can do flex-shrink too */
+    /* flex shorthand can set flex-basis, flex-grow and flex-shrink at once */
+    /* properties set depend on number and type of values passed */
+}
+
+#container div {
+    width: 200px;
+    height: 200px;
+}

@@ -1,0 +1,104 @@
+div {
+    width: 200px;
+    height: 200px;
+    /* border-width, border-color, border-style */
+}
+
+.one {
+    background-color: #e5989b;
+    border-width: 5px;
+    border-color: black;
+    border-style: solid;
+    box-sizing: border-box;
+}
+
+.two {
+    background-color: #b5838d;
+    border-width: 3px;
+    border-color: #ffcdb2;
+
+    /* sets top right bottom left */
+    border-style: dashed groove none dotted;
+    
+    border-left-width: 8px;
+    box-sizing: border-box;
+}
+
+.three {
+    background-color: #6d6875;
+    
+    /* set width style color at once */
+    border: 4px solid black;
+
+    /* rounded edges */
+    /* 50% makes a circle */
+    border-radius: 25%;
+    border-top-left-radius: 2%;
+
+}
+
+/* padding is space within an element's border*/
+h1 {
+    padding-left: 100px;
+    
+}
+
+.buttonone {
+    /* padding */
+    /* if one: all */
+    /* if two: vertical horizontal */
+    /* if three: top horizontal bottom */
+    /* if four: top right bottom left */
+    padding: 20px 10px 5px 10px;
+}
+
+/* margin: space outside of element's border */
+/* syntax is the same as padding */
+.buttontwo {
+    margin: 30px 10px;
+    color: black;
+}
+
+h2, h3 {
+    /* display can be inline, block, or inline-block, or none */
+    /* inline doesn't respect height/width/margin/padding */
+    /* inline-block: like inline, but height/width/margin/padding respected */
+    display: inline;
+}
+
+section {
+    background-color: #6d6875;
+    width: 800px;
+    height: 800px;
+}
+
+section > div {
+    background-color: #e5989b;
+    width: 50%;
+    height: 50%;
+}
+
+article {
+    font-size: 30px;
+}
+
+p {
+    /* ems are relative units depending on the css property */
+    /* rems are same except font-size is relative to the root html element (instead of immediately preceding parent) */
+
+    /* for font-size this paragraph will be half that of article */
+    font-size: 0.5em;
+
+    /* for other properties, 1 em is equal to the element itself */
+    /* margin for example will look at font-size, so this would have a 30px left-margin */
+    /* 30px = 30px artice (parent) * 0.5em (font-size above) * 2em */
+    margin-left: 2em;
+    border-radius: 2em;
+}
+
+article > button {
+    font-size: 0.5em;
+    color: teal;
+    margin-left: 2em;
+    border-radius: 2em;
+}

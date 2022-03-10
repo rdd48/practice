@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Edit</h1>
+
+    <!-- npm i method-override to do methods like patch (i.e. besides get/post) -->
+    <form method="POST" action="/comments/<%=comment.id%>?_method=PATCH">
+        <label for="comment"></label>
+        <textarea name="comment" id="" cols="30" rows="5" style="text-align: left; color: green">
+            <%= comment.comment %>
+        </textarea>
+        <button>Submit edit</button>
+    </form>
+</body>
+
+</html>

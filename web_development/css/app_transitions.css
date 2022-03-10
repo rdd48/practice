@@ -1,0 +1,75 @@
+body {
+    background-color: #151b29;
+}
+
+h2 {
+    color: white;
+}
+
+div {
+    background-color: magenta;
+    height: 50px;
+    width: 50px;
+    margin: 10px;
+
+    /* first val is transition time, second val is delay */
+    transition: background-color 1s ease-in 0.5s, border-radius 2s;
+}
+
+#circle1:hover {
+    background-color:cyan;
+    border-radius: 50%;
+}
+
+.transition-timing div {
+    transition: margin-left 3s;
+}
+
+.transition-timing:hover div {
+    margin-left: 100px;
+}
+
+#ease-in {
+    transition-timing-function: ease-in;
+}
+
+#ease-out {
+    transition-timing-function: ease-out;
+}
+
+.transform #t1 {
+    transform: rotate(45deg);
+    transform-origin: bottom-right;
+}
+
+.transform #t1 {
+    transform: rotate(45deg);
+}
+
+/* scale, translate, skew, all of which can have X/Y e.g. skewX */
+.transform #t2 {
+    transform: translateX(10px) skewY(-15deg);
+}
+
+button {
+    margin: 1em;
+    padding: 1em 2em;
+    background: none;
+    color: orange;
+    border: 2px solid orange;
+    font-size: 1em;
+
+    /* vh = view height units */
+    height: 10vh;
+
+    transition: color 0.25s, border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+}
+
+button:hover {
+    background-color: darkslategrey;
+    color: white;
+    border-color: yellow;
+    box-shadow: 0 0.5em 0.5em -0.4em yellow;
+    transform: translateY(-0.25em);
+    cursor: pointer;
+}

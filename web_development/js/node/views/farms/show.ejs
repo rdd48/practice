@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= farm.name %>
+    </title>
+</head>
+
+<body>
+    <h1>
+        <%= farm.name %>
+    </h1>
+    <ul>
+        <li>
+            City: <%= farm.city %>
+        </li>
+        <li>
+            Email: <%= farm.email %>
+        </li>
+    </ul>
+    <h2>Products</h2>
+    <ul>
+        <% for (let p of farm.products) {%>
+            <li>
+                <a href="/products/<%= p._id %>">
+                    <%= p.name %>
+                </a>
+            </li>
+            <% } %>
+    </ul>
+    <a href="/farms/<%= farm._id %>/products/new">Add Product</a>
+    <br>
+    <a href="/farms">All Farms</a>
+    <br>
+    <a href="/farms/<%= farm._id %>/edit">Edit Farm</a>
+    <br>
+    <form action="/farms/<%= farm._id %>?_method=DELETE" method="POST">
+        <button>Delete Farm</button>
+    </form>
+
+</body>
+
+</html>

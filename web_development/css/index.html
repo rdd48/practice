@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML for CSS tutorials</title>
+
+    <!-- best practice: use link element to link .css file to this html -->
+    <!-- rel="stylesheet" done automatically but might not matter. -->
+    <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="more_styles.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+    </style>
+</head>
+
+<body>
+    <!-- style attr can be used to add css styling inline, but not as ideal -->
+    <!-- style element can also be used -->
+
+    <style>
+        h2 {
+            color: blue;
+            /* this colors all h2s green */
+        }
+    </style>
+
+    <h1>This will be indigo due to the link element in head</h1>
+    <h2>This will be blue due to the style element in body</h2>
+
+    <div style="color: green" class="other">This is green text</div>
+
+    <button>Button CSS practice</button>
+
+    <p>Practice paragraph text for text styling</p>
+
+    <button id="testid">Test ID</button>
+
+    <label for="testclassid">Class-styled label</label>
+    <input type="text" class="testclass" id="testclassid">
+
+    <input type="week">
+
+    <ul>
+        <li><a href="test.url">I will be styled</a></li>
+    </ul>
+
+    <input type="text">
+    <button>Test adjacent CSS</button>
+
+    <div class="blah">nth-of-type test 1</div>
+    <div class="blah">nth-of-type test 2</div>
+    <div class="testdiv">nth-of-type test 3</div>
+    <div class="testdiv">nth-of-type test 4</div>
+    <div class="testdiv">nth-of-type test 5</div>
+    <div class="testdiv">Highlight me!</div>
+
+
+</body>
+
+</html>

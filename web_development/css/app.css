@@ -1,0 +1,108 @@
+h1 {
+    color: indigo;
+    /* this colors all h1s indigo */
+    /* colors can be named as above, or hex as #FF0000, or rgb as rgba(0,0,0,0) where a = alpha */
+    /* if hex has 8 chars, the last two refer to transparency */
+    /* opacity can also be used, sets everything here to transparent */
+}
+
+button {
+    /* color sets the text color, background-color sets background */
+    color: #7a0a7a; 
+    background-color: lightcyan;
+
+    /* background-image: url("") uses an image from url */
+    /* background-size: cover (pairs well with above) */
+}
+
+p {
+    /* font-size */
+    font-size: 20px;
+
+    /* font-family: like sans-serif, Arial, etc. */
+    /* font stack: like a hierarchy, tells the browser to pick the first available */
+    /* google fonts is great for adding fonts (get embed link for html head)  */
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
+
+    /* horizontal alignment within an element */
+    text-align: left;
+
+    /* text lightness or boldness. 400 is normal, 700 is bold. can also say bold*/
+    font-weight: 400;
+
+    /* line-height: percent or values. like line spacing */
+    line-height: 200%;
+    
+    /* text-decoration: takes underline, line-through, overline  */
+    /* also specifies color and style like: blue underline wavy, #ff0000 line-through dotted, etc. */
+    /* good for anchor tags if you want to remove underline as: text-decoration: none; */
+}
+
+/* selectors, i.e the part before {} */
+
+/* universal selector is a * */
+/* selector list: i.e h1,h2 {} */
+
+/* class selector using . */
+.testclass {
+    color: purple;
+}
+
+/* id selector using #, styles elements with given id attr */
+#testid {
+    color: blue;
+}
+
+/* attribute selector. select all elements with a given attr */
+/* this example selects inputs of type week but could be any attr */
+input[type=week] {
+    color: grey;
+}
+
+/* descendent selector using space: nested elements, e.g. select all <a>s nested inside <li> */
+/* can nest class selectors in other things too e.g. .class a */
+/* note: this works for all layers of children underneath. for direct descendents, see below. */
+li a {
+    color: green;
+}
+
+/* direct descendent: same as above but only for directly following child */
+li > a {
+    color: green;
+}
+
+/* adjacent selector: only for directly following */
+input + button {
+    color: violet;
+}
+
+/* pseudo classes: keywords added to a selector that specify a certain state */
+/* i.e. "hover" means the mouse is hovering over */
+/* active: clicked but not released */
+/* nth-of-type: do something the 3rd (3) or every 3rd (3n) times */
+
+a:hover {
+    color: blue
+}
+
+.testdiv:nth-of-type(2n) {
+    /* bolds every other div of testdiv */
+    font-weight: 700;
+}
+
+/* pseudo elements: select particular part of selected element */
+/* e.g. first-letter, first-line, etc. */
+.testdiv:nth-of-type(2n+1)::first-letter {
+    color: crimson;
+}
+
+/* selection pseudo element: selected (highlighted) text */
+/* seems to count existing divs? so this will be the first element with class="testdiv"... */
+/* ...but it has to be 2 since its the second div? */
+.blah:nth-of-type(1)::selection {
+    background-color: yellow;
+}
+
+/* specificity idea: most specific selector takes precedence */
+/* more to less specific: inline style attr > id > class/attr/pseudo-class selectors > element/pseudo-elements */
+/* adding !important after a style line overrides specificity i.e. color: white !important */

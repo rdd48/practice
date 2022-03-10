@@ -1,0 +1,27 @@
+<%- include('partials/head') %> 
+<%- include('partials/navbar') %> 
+<body>
+  <!-- this would work, i.e. can do js in line with <%= %> -->
+  <!-- <h1>Your random number is <%= (Math.floor(Math.random) * 10)+1 %>
+    </h1>   -->
+
+  <!-- better practice: render vars from js script -->
+  <h1>Your random number is <%= rand %>
+  </h1>
+
+  <!-- Use <% %> for controlling flow (i.e., don't render contents) -->
+  <% if (rand % 2===0) { %>
+  <h2> That's an even number! </h2>
+  <% } else { %>
+  <h2> That's odd! </h2>
+  <% } %>
+
+  <!-- ternary operator -->
+  <!-- use the <%= %> version because we want the text rendered -->
+  <h3>
+    <%= rand%2===0 ? 'Even!' : 'Odd!' %>
+  </h3>
+
+</body>
+
+</html>
