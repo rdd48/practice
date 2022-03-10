@@ -1,0 +1,27 @@
+npm i:
+express ejs ejs-mate
+mongoose
+(& conda install/activate mongo)
+method-override
+// path is part of ejs
+joi
+express-session connect-flash
+passport passport-local passport-local-mongoose
+
+// section 54: uploading files to cloudinary
+// installed cloudinary from cloudinary.com
+multer dotenv cloudinary multer-storage-cloudinary
+
+// section 55
+// created mapbox account
+@mapbox/mapbox-sdk
+
+// section 58
+express-mongo-sanitize sanitize-html helmet
+
+// section 59
+// created a mongodb atlas account & a heroku account 
+connect-mongo
+// heroku cli: $ brew tap heroku/brew && brew install heroku
+// login to heroku w/ $ heroku login
+// then $ heroku create

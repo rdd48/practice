@@ -1,0 +1,19 @@
+<% layout('layouts/boilerplate') %>
+    <!-- from bootstrap -->
+    <div class="container">
+        <div class="row">
+            <div class="col-12 alert alert-danger" role="alert">
+                <h4 class="alert-heading">
+                    <%= err.message %>
+                </h4>
+                <% if (process.env.Node_ENV !=='production' ) { %>
+                    <p style="word-break: break-all">
+                        <%= err.stack %>
+                    </p>
+                    <hr>
+
+                    <p>Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+                    <% } %>
+            </div>
+        </div>
+    </div>
