@@ -2,14 +2,15 @@ import streamlit as st
 import pandas as pd
 import subprocess
 import sys
+import plotly.express as px
 
-try:
-    import plotly.express as px
-except ImportError:
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "plotly"])
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "xlrd"])
-finally:
-    import plotly.express as px
+# try:
+#     import plotly.express as px
+# except ImportError:
+#     subprocess.check_call([sys.executable, "-m", "pip", "install", "plotly"])
+#     subprocess.check_call([sys.executable, "-m", "pip", "install", "xlrd"])
+# finally:
+#     import plotly.express as px
 
 
 st.set_page_config(
