@@ -1,0 +1,10 @@
+name: streamlit_deploy
+channels:
+  - anaconda
+  - plotly
+  - conda-forge
+  - defaults
+dependencies:
+  - pandas
+  - plotly_express
+  - xlrd
