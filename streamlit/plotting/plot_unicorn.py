@@ -1,18 +1,17 @@
 import streamlit as st
 import pandas as pd
 
-import subprocess
-import sys
+# import subprocess
+# import sys
 
-try:
-    import plotly.express as px
-except ImportError:
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "plotly"])
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "xlrd"])
-finally:
-    import plotly.express as px
-# import plotly.express as px
-# import matplotlib.pyplot as plt
+# try:
+#     import plotly.express as px
+# except ImportError:
+#     subprocess.check_call([sys.executable, "-m", "pip", "install", "plotly"])
+#     subprocess.check_call([sys.executable, "-m", "pip", "install", "xlrd"])
+# finally:
+#     import plotly.express as px
+import plotly.express as px
 
 st.set_page_config(
     page_title='Unicorn Plotter',
@@ -23,8 +22,7 @@ st.set_page_config(
 @st.cache
 def xls_to_df(xls_file):
     df = pd.read_excel(
-        io=xls_file, 
-        # engine='openpyxl',
+        io=xls_file,
         header=[2]
     )
 
@@ -41,7 +39,6 @@ uploaded_xls = st.file_uploader(
 )
 
 if uploaded_xls is not None:
-    # df = xls_to_df('input/PP-PGM2-22-164-Chromatogram.xls')
     df = xls_to_df(uploaded_xls)
 
     st.sidebar.header('Please filter here:')
@@ -58,16 +55,4 @@ if uploaded_xls is not None:
     )
 
     st.plotly_chart(line_chart)
-
-# st.dataframe(df)
-
-# print(df.info())
-
-
-
-
-# print(df.columns)
-# df.plot.line(x='l', y=' mS/cm')
-# plt.show()
-
 
