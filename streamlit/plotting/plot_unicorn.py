@@ -1,17 +1,16 @@
 import streamlit as st
 import pandas as pd
+import subprocess
+import sys
 
-# import subprocess
-# import sys
+try:
+    import plotly.express as px
+except ImportError:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "plotly"])
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "xlrd"])
+finally:
+    import plotly.express as px
 
-# try:
-#     import plotly.express as px
-# except ImportError:
-#     subprocess.check_call([sys.executable, "-m", "pip", "install", "plotly"])
-#     subprocess.check_call([sys.executable, "-m", "pip", "install", "xlrd"])
-# finally:
-#     import plotly.express as px
-import plotly.express as px
 
 st.set_page_config(
     page_title='Unicorn Plotter',
@@ -55,4 +54,5 @@ if uploaded_xls is not None:
     )
 
     st.plotly_chart(line_chart)
+
 
