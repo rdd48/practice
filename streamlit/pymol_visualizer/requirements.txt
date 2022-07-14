@@ -18,8 +18,6 @@ cffi==1.14.6
 charset-normalizer==2.0.10
 click==8.0.3
 colorama==0.4.4
-conda==4.13.0
-conda-package-handling==1.7.3
 configparser==5.2.0
 cryptography==36.0.1
 cycler==0.11.0
