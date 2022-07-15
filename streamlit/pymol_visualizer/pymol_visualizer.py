@@ -8,15 +8,16 @@ st.set_page_config(
     layout='wide'
 )
 
-st.markdown('### :atom_symbol:  Pymol Visualizer  :atom_symbol:')
+st.markdown('#### :atom_symbol:  Pymol Visualizer  :atom_symbol:')
+mobile_size = st.checkbox('Optimize for mobile?', value=False)
 
 # how to use py3Dmol: https://william-dawson.github.io/using-py3dmol.html
 # with open('1fsl.pdb') as pdb:
 #     system = ''.join([i for i in pdb])
 
 # globals
-width = 800
-height = 400
+width = 250 if mobile_size else 600
+height = 250 if mobile_size else 400
 
 st.sidebar.header('Select options:')
 pdb = st.sidebar.text_input('Enter PDB code:', value='1fsl')
@@ -42,11 +43,14 @@ if spinning == 'True':
 
 button = st.sidebar.button('Reset view', on_click=view.zoomTo)
 
+# center the title
 st.markdown('<style>.e16nr0p30 {text-align: center;}</style>', unsafe_allow_html=True)
-st.markdown('<style>iframe {border: solid; display: block; margin-left: auto; margin-right: auto;}</style>', unsafe_allow_html=True)
 
+# adjust the view size and add a border
+st.markdown('<style>iframe {border: solid; display: block; margin-left: auto; margin-right: auto;}</style>', unsafe_allow_html=True)
 
 view.zoomTo()
 view.show()
+
 
 showmol(view, width=width, height=height)
