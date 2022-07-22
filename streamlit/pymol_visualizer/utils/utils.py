@@ -13,9 +13,8 @@ def get_name(pdb):
     return pdb_data['struct']['title'].title()
 
 def get_rcsb_info(pdb):
-    pdb_data = get_info(pdb)
-    return pdb_data
-
+    return get_info(pdb)
+    
 class PDBInfo:
     def __init__(self, pdb):
         self.pdb = pdb
@@ -43,4 +42,7 @@ def parse_pdb(pdb):
     Pdb = PDBInfo(pdb)
     return Pdb.chains, Pdb.sequence
 
-    
+def download_fasta(pdb, seq):
+    with open(f'{pdb}.fasta', 'w') as outfile:
+        outfile.write(f'>{pdb}\n')
+        outfile.write(seq)
