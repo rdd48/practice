@@ -5,7 +5,8 @@ aa_codes = {
     'PHE': 'F', 'GLY': 'G', 'HIS': 'H', 'ILE': 'I', 
     'LYS': 'K', 'LEU': 'L', 'MET': 'M', 'ASN': 'N',
     'PRO': 'P', 'GLN': 'Q', 'ARG': 'R', 'SER': 'S',
-    'THR': 'T', 'VAL': 'V', 'TRP': 'W', 'TYR': 'Y'
+    'THR': 'T', 'VAL': 'V', 'TRP': 'W', 'TYR': 'Y',
+    'UNK': '[unknown]'
 } 
 
 def get_name(pdb):

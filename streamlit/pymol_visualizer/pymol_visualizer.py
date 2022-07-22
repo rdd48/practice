@@ -13,6 +13,7 @@ from pdb_info import pdb_names_dict
 # * select by resi (multiselect)
 # * save/render images
 # * save/render gifs
+# * have option to download sequence by chain
 # * clean up code
 # * host 
 
@@ -94,9 +95,9 @@ if pdb and pdb in pdb_names_dict.all_pdbs_dict.values():
         color = st.sidebar.color_picker('Select color from picker:', value='#00f900')
         view.setStyle({'model': -1}, {'cartoon': {'color': color}})
     elif color_selector == 'Color by Chain':
-        colors = ['green', 'cyan', 'magenta', 'yellow', 'wheat', 'slate', 'grey', 'lightpink', 'blue', 'red']
+        colors = ['green', 'cyan', 'magenta', 'yellow', 'wheat', 'purple', 'grey', 'lightpink', 'blue', 'red']
         for idx, c in enumerate(chains):
-            view.setStyle({'chain': c}, {'cartoon': {'color': colors[idx]}})
+            view.setStyle({'chain': c}, {'cartoon': {'color': colors[idx % len(colors)]}})
     elif color_selector:
         color = color_selector.lower()
         view.setStyle({'model': -1}, {'cartoon': {'color': color}})
