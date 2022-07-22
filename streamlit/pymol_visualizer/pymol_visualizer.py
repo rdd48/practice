@@ -14,7 +14,7 @@ from pdb_info import pdb_names_dict
 # * save/render images
 # * save/render gifs
 # * clean up code
-# * host on IF github
+# * host 
 
 st.set_page_config(
     page_title='Pymol Visualizer',
@@ -72,7 +72,6 @@ spinning = st.sidebar.selectbox('Set model spin', ('Off', 'On'))
 
 if pdb and pdb in pdb_names_dict.all_pdbs_dict.values():
     url1 = f'https://files.rcsb.org/download/{pdb}.pdb1.gz'
-    file_name1 = re.split(pattern='/', string=url1)[-1]
     r1 = request.urlopen(url=url1)
 
     with gzip.open(r1, 'rt') as f_in:
