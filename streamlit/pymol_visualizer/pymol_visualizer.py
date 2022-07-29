@@ -1,7 +1,7 @@
+from pdb import Pdb
 import streamlit as st
 import py3Dmol
 from stmol import showmol
-import re
 from urllib import request
 import gzip
 
@@ -11,9 +11,8 @@ from pdb_info import pdb_names_dict
 
 # TODO:
 # * select by resi (multiselect)
-# * save/render images
+# * save/render images -- maybe through pymol api?
 # * save/render gifs
-# * have option to download sequence by chain
 # * clean up code
 # * host 
 
@@ -47,7 +46,8 @@ with col1:
         'LegH': '1FSL',
         'Soy 11S': '1OD5',
         'Soy 7S': '1UIK',
-        'Bovine Hemoglobin': '2QSP'
+        'Bovine Hemoglobin': '2QSP',
+        'Transglutaminase': '1G0D'
     }
     selected_pdb = st.selectbox('Pick from common options:', options=['', *defaults_to_pdb.keys()], on_change=set_pdb_state, args=['user_input'])
 
@@ -76,20 +76,21 @@ if pdb and pdb in pdb_names_dict.all_pdbs_dict.values():
     r1 = request.urlopen(url=url1)
 
     with gzip.open(r1, 'rt') as f_in:
-        bio_assembly = f_in.readlines()
+        pdb_lines = f_in.readlines()
         parsed_pdb = ''
-        for line in bio_assembly:
+        for line in pdb_lines:
             if line.startswith('ATOM'):
                 parsed_pdb += line
 
     view = py3Dmol.view(width=width, height=height)
     view.addModelsAsFrames(parsed_pdb)
-    view.setStyle({'model': -1}, {'cartoon': {'color': 'spectrum'}})
+    # view.setStyle({'model': -1}, {'cartoon': {'color': 'spectrum'}})
 
     # display pdb element title
     st.markdown(f'**[{pdb.upper()}](https://www.rcsb.org/structure/{pdb.upper()}): {utils.get_name(pdb)}**')
 
-    chains, sequence = utils.parse_pdb(bio_assembly)
+    PdbObj = utils.parse_pdb(pdb, pdb_lines)
+    chains = PdbObj.get_chains()
 
     if color_selector == 'Color Picker':
         color = st.sidebar.color_picker('Select color from picker:', value='#00f900')
@@ -116,7 +117,26 @@ if pdb and pdb in pdb_names_dict.all_pdbs_dict.values():
 
     showmol(view, width=width, height=height)
 
-    st.download_button('Download sequence as fasta', f'>{pdb}\n{sequence}\n', file_name=f'{pdb}.fasta')
+    st.download_button('Download sequence as fasta', PdbObj.get_sequence(), file_name=f'{pdb}.fasta')
+
+    aa_options = sorted([aa for aa in utils.aa_codes.keys() if aa != 'UNK'])
+    aas_highlight = st.multiselect('Select amino acids to show', aa_options)
+    
+    if aas_highlight:
+        sidechain_atoms = []
+        for aa in aas_highlight:
+            sidechain_atoms += PdbObj.get_sidechain_atoms_by_aa(aa)
+            backbone_atoms = PdbObj.backbone_atoms
+            
+        # for idx in range(PdbObj.num_atoms):
+            # view.setStyle({'model': -1, 'serial': idx+1}, {'stick': {'color': 'red'}})
+        for atom in backbone_atoms:
+            view.setStyle({'model': -1, 'serial': atom}, {'stick': {'color': color}})
+        for atom in sidechain_atoms:
+            # view.setStyle({'model': -1, 'serial': idx+1}, {'stick': {'color': 'black'}})
+            view.setStyle({'model': -1, 'serial': atom}, {'stick': {'color': 'red'}})
+                
+        showmol(view, width=width, height=height)
 
 # center the title
 st.markdown('<style>.e16nr0p30 {text-align: center;}</style>', unsafe_allow_html=True)
