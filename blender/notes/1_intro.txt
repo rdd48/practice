@@ -1,0 +1,14 @@
+keypad: shortcuts for certain views
+ * 0: camera view
+
+f12: render preview
+shift + right click: move 3d cursor
+
+shift + a: add
+g: grab (and move object)
+r: rotate
+s: scale
+g/r/s + x/y/z: transform only on that axis
+
+n: pull up object transform box
+ * can click and drag to set multiple transforms at once
