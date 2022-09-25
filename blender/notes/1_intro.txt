@@ -1,5 +1,6 @@
 keypad: shortcuts for certain views
  * 0: camera view
+ * in camera view, make sure "camera to view" is clicked so that you can reset camera by moving
 
 f12: render preview
 shift + right click: move 3d cursor
@@ -12,3 +13,11 @@ g/r/s + x/y/z: transform only on that axis
 
 n: pull up object transform box
  * can click and drag to set multiple transforms at once
+
+shader editor:
+ * ctrl + 0 w/ mouse over editor makes full screen
+ * will change metallic, rougness, normals most
+ * on top left where it says object, you can switch to world to set background
+  * polyhaven: good resource for HDRIs "high dynamic range images" for bg
+  * add -> image -> env texture
+  * connect yellow dots
