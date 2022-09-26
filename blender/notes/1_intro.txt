@@ -1,10 +1,12 @@
 keypad: shortcuts for certain views
  * 0: camera view
  * in camera view, make sure "camera to view" is clicked so that you can reset camera by moving
+   * (n -> view -> lock camera to view)
  * . on numpad: orient around an obj
 
 f12: render preview
 shift + right click: move 3d cursor
+shift + c: reset cursor
 
 shift + a: add
 shift + d: duplicate
@@ -20,8 +22,11 @@ n: pull up object transform box
 
 shader editor:
  * ctrl + 0 w/ mouse over editor makes full screen
- * will change metallic, rougness, normals most
- * on top left where it says object, you can switch to world to set background
+ * will change color, metallic, rougness, normals most
+ * for shadows: on right tab under render, set screen space reflections & ambient occlusion
+ * to color different faces, create a new slot -> then select faces in edit mode -> assign
+
+ * on top left of lower editor where it says object, you can switch to world to set background
   * polyhaven: good resource for HDRIs "high dynamic range images" for bg
   * add -> image -> env texture
   * connect yellow dots
@@ -40,3 +45,14 @@ edit mode (tab to toggle modes):
 
 collections
  * select obj for collection, then hit m to create new
+ * F2 renames object
+
+link objects with ctrl + l -> link object data
+
+sculpting
+ * hit "sculpting" on top bar
+ * f: change brush size
+ * tick "dyantopo" to smooth object (add vertices), right side of screen and will need to minimize right panel
+ * grab brush also useful
+ * can use decimate modifier to reduce face count
+  * side right-bottom wrench -> add modifier -> decimate -> reduce ratio -> dropdown -> apply
