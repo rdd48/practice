@@ -1,5 +1,4 @@
 def get_max_cals(filename):
-    total_inc = 0
 
     with open(filename) as f:
         lines = f.readlines()
@@ -22,7 +21,6 @@ def get_max_cals(filename):
     return max_cals
 
 def get_top_three_cals(filename):
-    total_inc = 0
 
     with open(filename) as f:
         lines = f.readlines()
