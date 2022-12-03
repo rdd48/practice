@@ -23,18 +23,12 @@ def tally_rps1(filename):
             if throw_to_int[opp] == throw_to_int[play]:
                 total += 3
             
-            # opp throws rock
-            elif throw_to_int[opp] == 1 and throw_to_int[play] == 2:
+            # if you win
+            # i.e., your play is one "point" higher
+            # the modulo is for when your opponent plays scissors (3) and you play rock (1)
+            elif (throw_to_int[opp] % 3) + 1 == throw_to_int[play]:
                 total += 6
-            
-            # opp throws paper
-            elif throw_to_int[opp] == 2 and throw_to_int[play] == 3:
-                total += 6
-            
-            # opp throws scissors
-            elif throw_to_int[opp] == 3 and throw_to_int[play] == 1:
-                total += 6
-    
+
     return total
 
 # print(tally_rps('input/test.txt'))
@@ -66,5 +60,5 @@ def tally_rps2(filename):
     
     return total
 
-print(tally_rps2('input/test.txt'))
+# print(tally_rps2('input/test.txt'))
 print(tally_rps2('input/02.txt'))
