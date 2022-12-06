@@ -14,5 +14,5 @@ def find_marker(fname, part2=False):
 # print(find_marker('input/test.txt'))
 print(find_marker('input/06.txt'))
 
-print(find_marker('input/test.txt', part2=True))
+# print(find_marker('input/test.txt', part2=True))
 print(find_marker('input/06.txt', part2=True))
