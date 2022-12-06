@@ -36,13 +36,8 @@ def rucksack_score2(filename):
             l1, l2, l3 = lines[idx].strip(), lines[idx+1].strip(), lines[idx+2].strip()
 
             # probably also the slow way
-            in_first_two = ''
             for i in l1:
-                if i in l2:
-                    in_first_two += i
-            
-            for i in in_first_two:
-                if i in l3:
+                if i in l2 and i in l3:
                     score += get_score(i)
                     break
     
@@ -50,7 +45,7 @@ def rucksack_score2(filename):
 
 
 # print(rucksack_score('input/test.txt'))
-# print(rucksack_score('input/03.txt'))
+print(rucksack_score('input/03.txt'))
 
-print(rucksack_score2('input/test.txt'))
+# print(rucksack_score2('input/test.txt'))
 print(rucksack_score2('input/03.txt'))
