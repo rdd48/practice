@@ -4,7 +4,7 @@ def find_marker(fname, part2=False):
 
         marker_len = 14 if part2 else 4
 
-        for idx in range(1, len(line) - 3):
+        for idx in range(1, len(line) - marker_len - 1):
 
             # sets don't allow duplicates, so it's an easy way to check if dupes exist
             if len(set(line[idx:idx+marker_len])) == marker_len:
