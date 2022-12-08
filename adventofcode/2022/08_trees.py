@@ -22,11 +22,11 @@ def visible_trees(fname):
             
             # check right
             # i.e., no value to the right is larger
-            if np.sum(a[r][c+1:] >= val) == 0:
+            if np.sum(a[r, c+1:] >= val) == 0:
                 visible += 1
 
             # check left
-            elif np.sum(a[r][:c] >= val) == 0:
+            elif np.sum(a[r, :c] >= val) == 0:
                 visible += 1
             
             # check top
@@ -57,36 +57,37 @@ def visible_trees2(fname):
     for r in range(1, rows - 1):
         for c in range(1, cols - 1):
             val = a[r][c]
+            up, down, left, right = 0, 0, 0, 0
             
             # check up
-            up, new_r = 0, r - 1
+            new_r = r - 1
             while new_r >= 0:
                 up += 1
-                if a[new_r][c] >= val:
+                if a[new_r, c] >= val:
                     break
                 new_r -= 1
             
             # check down
-            down, new_r = 0, r + 1
+            new_r = r + 1
             while new_r <= rows - 1:
                 down += 1
-                if a[new_r][c] >= val:
+                if a[new_r, c] >= val:
                     break
                 new_r += 1
             
             # check left
-            left, new_c = 0, c - 1
+            new_c = c - 1
             while new_c >= 0:
                 left += 1
-                if a[r][new_c] >= val:
+                if a[r, new_c] >= val:
                     break
                 new_c -= 1
             
             # check right
-            right, new_c = 0, c + 1
+            new_c = c + 1
             while new_c <= cols - 1:
                 right += 1
-                if a[r][new_c] >= val:
+                if a[r, new_c] >= val:
                     break
                 new_c += 1
 
