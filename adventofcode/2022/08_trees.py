@@ -10,7 +10,7 @@ def visible_trees(fname):
         # create array
         for row, l in enumerate(lines):
             for col, value in enumerate(l.strip()):
-                a[row][col] = int(value)
+                a[row, col] = int(value)
     
     # count edges of grid first
     visible = (2 * rows) + (2 * cols) - 4
@@ -49,7 +49,7 @@ def visible_trees2(fname):
         # create array
         for row, l in enumerate(lines):
             for col, value in enumerate(l.strip()):
-                a[row][col] = int(value)
+                a[row, col] = int(value)
 
     best_view = 0
 
