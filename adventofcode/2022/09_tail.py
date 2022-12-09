@@ -121,8 +121,36 @@ def move_head(direct, dist, h, t):
     
     return h, t
 
-def move_rope(t1, t2):
-    pass
+def move_rope(h, t):
+    # return starting pos if close
+    total_dist = calc_dist(h, t)
+    if total_dist < 1.5:
+        return h, t
+    
+    # determine direct to move t
+    # check for diag movement
+    if h[0] != t[0] and h[1] != t[1]:
+        dx = 1 if t[0] < h[0] else -1
+        dy = 1 if t[1] < h[1] else -1
+        t[0] = t[0] + dx
+        t[1] = t[1] + dy
+    
+    # check now for x movement
+    if h[0] != t[0]:
+        x_dist = calc_dist(h,t)
+        print('x', h, t, x_dist)
+        direct = 1 if t[0] < h[0] else -1
+        t[0] = t[0] + ((x_dist - 1) * direct)
+    
+    # check now for y movement
+    if h[1] != t[1]:
+        y_dist = calc_dist(h,t)
+        print('y', h, t, y_dist)
+        direct = 1 if t[1] < h[1] else -1
+        t[1] = t[1] + ((y_dist - 1) * direct)
+    
+    return h, t
+
 
 def tail_states2(fname):
     with open(fname) as f:
@@ -149,7 +177,10 @@ def tail_states2(fname):
             t7, t8 = move_rope(t7, t8)
             t8, t9 = move_rope(t8, t9)
 
-            print(h,t1,t2,t3,t4,t5,t6,t7,t8,t9)
+            #print(h,t1,t2,t3,t4,t5,t6,t7,t8,t9)
+        
+            if _ == 1:
+                exit()
 
     # return len(t_pos)
 
