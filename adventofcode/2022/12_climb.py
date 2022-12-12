@@ -33,7 +33,7 @@ def climb(fname):
     visited = set(start)
     left_pos, right_pos, down_pos, up_pos = False, False, False, False
     
-    while True:
+    while len(paths):
         for path in paths:
             left, right, up, down = check_edge(path[-1], rows, cols)
             x,y = path[-1]
@@ -74,10 +74,11 @@ def climb(fname):
         next_paths = []
 
 # print(climb('input/test.txt'))
-# print(climb('input/12.txt'))
+print(climb('input/12.txt'))
 
 
 def climb2(fname):
+    # this could be faster if you change the loop to go from high (27, E) to low (1, a) but idk. this works too.
     a, _ = process_input(fname)
     rows, cols = a.shape
     paths = []
@@ -90,8 +91,6 @@ def climb2(fname):
 
     next_paths = []
 
-    
-    
     while True:
         for p in paths:
             path, visited = p
