@@ -53,7 +53,7 @@ def open_valves(fname):
         new_paths = []
 
         if minute > 5:
-            # sort by score and keep only top 3000 (arbitrarily)
+            # sort by score and keep only top 5000 (arbitrarily)
             paths.sort(key=lambda x:x[2], reverse=True)
             paths = paths[:5000]
 
@@ -117,12 +117,10 @@ def open_valves2(fname):
         new_paths = []
 
         if minute >= 5:
-            # sort by score and keep only top 3000 (arbitrarily)
+            # sort by score and keep only top 5000 (arbitrarily)
             paths.sort(key=lambda x:x[3], reverse=True)
             paths = paths[:5000]
 
-
-    
     return paths[0][-1]
 
 # print(open_valves2('input/test.txt'))
