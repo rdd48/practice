@@ -1,13 +1,3 @@
-class Piece:
-    def __init__(self, shape):
-        self.shape = shape
-    
-    def right(self):
-        self.shape = [(x+1, y) for x,y in self.shape]
-    
-    def left(self):
-        self.shape = [(x-1, y) for x,y in self.shape]
-
 def get_coords(piece_num, y):
     coords = {
         0: [(2, y), (3, y), (4, y), (5, y)],
@@ -81,11 +71,10 @@ def tetris(fname, rounds):
 
 
 # print(tetris('input/test.txt', 2022))
-# print(tetris('input/17.txt', 2022))
+print(tetris('input/17.txt', 2022))
 
 def tetris2(fname, rounds):
-    # this works except it's always 1 point too high!! why??
-    
+
     with open(fname) as f:
         dirs = f.readline().strip()
     
@@ -98,9 +87,8 @@ def tetris2(fname, rounds):
     max_x = [0] * width
 
     to_match = {}
-    counter = 0
     matched_rounds, matched_heights = [], []
-    remainder_rounds = float('inf')
+    remainder_rounds = float('inf') # this gets updated later
     ans = 0
 
     for round in range(rounds):
@@ -109,41 +97,40 @@ def tetris2(fname, rounds):
         if round == 500:
             max_height = max(max_x)
             to_match = {(x,y - max_height) for x,y in occupied if y > max_height - 20}
-            
-            print(max_height)
-        
+
         if round > 500:
             max_height = max(max_x)
             attempt = {(x,y - max_height) for x,y in occupied if y > max_height - 20}
 
             if to_match == attempt:
+
+                # matched rounds are the round numbers that match the block pattern in round 500
+                # (e.g. for the test, matched rounds looks like [535, 570 ... 500 + 35n])
                 matched_rounds.append(round)
+
+                # matched heights are the max y values (grid heights) corresponding to each matched rounds
                 matched_heights.append(max_height)
 
-                counter += 1
-                print(counter, round, max_height)
-                if counter > 1:
+                if len(matched_heights) > 1:
                     # the pattern repeats every (matched_rounds[1] - matched_rounds[0]) rounds
-                    # we reach 1000000000000 in round = 1000000000000 % (matched_rounds[1] - matched_rounds[0])
+                    # we reach 1000000000000 in round = 1000000000000 - curr_round % (matched_rounds[1] - matched_rounds[0])
+                    # i.e., how many rounds remaining after out completed cycle (1 cycle = # rounds it takes to revisit the pattern)
+                    # (slightly messy since round and matched_rounds[1] are the same thing, but whatever)
                     
                     rounds_in_pattern = matched_rounds[1] - matched_rounds[0]
-                    remainder_rounds = (1000000000000 - round) % rounds_in_pattern
-                    cycles_left = (1000000000000 - round) // rounds_in_pattern
+                    remainder_rounds = (rounds - round) % rounds_in_pattern
+                    cycles_left = (rounds - round) // rounds_in_pattern
 
                     # points after all cycles (without remainder_rounds) is the total points now
                     # plus (remaining cycles * points per cycle)
                     points_per_cycle = matched_heights[1] - matched_heights[0]
-                    ans = max_height + (points_per_cycle * cycles_left)
-
-                    # now we need to keep track of how many rounds are remaining
-                    print(remainder_rounds)
+                    ans = points_per_cycle * cycles_left
 
 
         falling = True
         piece_idx = round % 5
         coords = get_coords(piece_idx, fall_y)
-        
-        # print(round, coords)
+
         while falling:
             # first move laterally
             dir = dirs[dir_idx % len(dirs)]
@@ -184,13 +171,11 @@ def tetris2(fname, rounds):
                 # piece didn't hit anything so we decrease y_coords by 1
                 coords = [(x, y-1) for x,y in coords]
         
-        if remainder_rounds == 0:
-            max_height = max(max_x)
-            return ans + (max_height - matched_heights[1])
-        
         remainder_rounds -= 1
+        if remainder_rounds == 0:
+            return ans + max(max_x)
         
     return max(max_x)
 
-print(tetris2('input/test.txt', 1000000000000))
+# print(tetris2('input/test.txt', 1000000000000))
 print(tetris2('input/17.txt', 1000000000000))
