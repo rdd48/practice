@@ -61,7 +61,7 @@ def possible_beacons1(fname):
 
 
 # print(possible_beacons1('input/test.txt'))
-print(possible_beacons1('input/15.txt'))
+# print(possible_beacons1('input/15.txt'))
 
 
 def add_point_to_set(s, x, y):
@@ -91,7 +91,7 @@ def possible_beacons2(fname):
     
     # get man distance for each sensor / beacon pair
     man_dists = []
-    all_possibles = {}
+    tested_possibles = set()
     
     for s, b in zip(sensors, beacons):
         man_dists.append(calc_man_dist(s, b))
@@ -99,35 +99,22 @@ def possible_beacons2(fname):
         
     idx = 0 
     for s, md in zip(sensors, man_dists):
-        # get possible points for all sensor
         print(idx)
-        possibles = set()
+        new_possibles = set()
         sx, sy = s
         idx += 1
 
         for d in range(md+2):
-            possibles = add_point_to_set(possibles, sx - md - 1 + d, sy + d)
-            possibles = add_point_to_set(possibles, sx + md + 1 - d, sy + d)
-            possibles = add_point_to_set(possibles, sx - md - 1 + d, sy - d)
-            possibles = add_point_to_set(possibles, sx + md + 1 - d, sy - d)
-    
-        all_possibles[(sx, sy)] = possibles
+            new_possibles = add_point_to_set(new_possibles, sx - md - 1 + d, sy + d)
+            new_possibles = add_point_to_set(new_possibles, sx + md + 1 - d, sy + d)
+            new_possibles = add_point_to_set(new_possibles, sx - md - 1 + d, sy - d)
+            new_possibles = add_point_to_set(new_possibles, sx + md + 1 - d, sy - d)
 
-    ans = {}
-    for v in all_possibles.values():
-        for p in v:
-            x, y = p
-            if (x,y) not in ans:
-                ans[(x,y)] = 0
-            ans[(x,y)] += 1
-            
-            # this is the clever part: the only free part is one where the added buffer 
-            # from each diamond is found in (at least) 4 different sensors
-            if ans[(x,y)] >= 4:
+        for x,y in new_possibles: # - tested_possibles:
+            if not is_inside(sensors, man_dists, x, y):
+                return x * 4000000 + y
 
-                # make sure the diamond is not inside other sensors diamonds
-                if not is_inside(sensors, man_dists, x, y):
-                    return x * 4000000 + y
+        tested_possibles.union(new_possibles)
 
-print(possible_beacons2('input/test.txt'))
+# print(possible_beacons2('input/test.txt'))
 print(possible_beacons2('input/15.txt'))
