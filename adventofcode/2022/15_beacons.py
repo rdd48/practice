@@ -61,7 +61,7 @@ def possible_beacons1(fname):
 
 
 # print(possible_beacons1('input/test.txt'))
-# print(possible_beacons1('input/15.txt'))
+print(possible_beacons1('input/15.txt'))
 
 
 def add_point_to_set(s, x, y):
