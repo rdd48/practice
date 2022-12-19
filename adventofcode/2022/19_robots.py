@@ -1,4 +1,4 @@
-def process_input(fname):
+def process_input(fname, part2=False):
     with open(fname) as f:
         lines = f.readlines()
         lines = [l.strip() for l in lines]
@@ -15,6 +15,9 @@ def process_input(fname):
             geo_robot = (int(lsplit[ore_idx[4]-1]), int(lsplit[ore_idx[4]+2]))
 
             bps[int(lsplit[1][:-1])] = [ore_robot, clay_robot, obs_robot, geo_robot]
+
+            if part2 and int(lsplit[1][:-1]) == 3:
+                return bps
         
     return bps
 
@@ -25,11 +28,7 @@ def make_robots(fname):
     # we need to keep track of num robots & curr resources for each
     # for each, let's do a dict of 2 dicts (1 with resources, 1 with robots
 
-    paths = [{
-        'rocks': {'ore': 0, 'clay': 0, 'obs': 0,'geo': 0},
-        'robots': {'ore': 1, 'clay': 0, 'obs': 0,'geo': 0}
-    }]
-    new_paths = []
+
     best_geo_all_bps = {}
     
 
@@ -39,27 +38,41 @@ def make_robots(fname):
         geo_cost_ore, geo_cost_obs = geo_cost
 
         max_geo_per_bp = 0
+        best_geode, best_geode_robot, best_nongeo_robot = 0, 0, 0
+
+        paths = [{
+            'rocks': {'ore': 0, 'clay': 0, 'obs': 0,'geo': 0},
+            'robots': {'ore': 1, 'clay': 0, 'obs': 0,'geo': 0}
+        }]
+        new_paths = []
         
         # keep track of what we've seen. 
         # maybe in a tuple like (*rocks, *robots)
-        observed = set()
+        observed = set((0,0,0,0,1,0,0,0))
 
         for round in range(24):
-            print(round, len(paths), len(observed))
+            print(bp_idx, round)
             for p in paths:
                 # if we look at all paths, this runs like molasses. set up an arbitrary culling step at round 12
                 # maybe if no clay robots have been purchased by then?
-                if round >= 8:
-                    if not p['robots']['clay']:
-                        continue
-                
-                if round >= 14:
-                    if not p['robots']['obs'] or p['robots']['clay'] < 3:
-                        continue
-                
-                if round >= 20:
-                    if not p['robots']['geo'] or p['robots']['obs'] < 2:
-                        continue
+
+                curr_geode = p['rocks']['geo']
+                if curr_geode > best_geode:
+                    best_geode = curr_geode
+                elif curr_geode + 2 <= best_geode:
+                    continue
+
+                curr_geode_robot = p['robots']['geo']
+                if curr_geode_robot > best_geode_robot:
+                    best_geode_robot = curr_geode_robot
+                elif curr_geode_robot + 2 <= best_geode_robot:
+                    continue
+
+                curr_nongeo_robots = sum([val for robot, val in p['robots'].items() if robot != 'geo'])
+                if curr_nongeo_robots > best_nongeo_robot:
+                    best_nongeo_robot = curr_nongeo_robots
+                elif curr_nongeo_robots + 10 <= best_nongeo_robot:
+                    continue
 
                 # first add all new resources
                 curr_robots, curr_rocks = p['robots'].copy(), p['rocks'].copy()
@@ -68,35 +81,36 @@ def make_robots(fname):
                 for robot_type, robot_num in curr_robots.items():
                     new_rocks[robot_type] = robot_num + curr_rocks[robot_type]
 
-                # buy robots if possible
-                if ore_cost <= curr_rocks['ore']:
+                # buy robots if possible but don't if you're already at max capacity
+                max_ore_needed = max(ore_cost, clay_cost, obs_cost_ore, geo_cost_ore)
+                if ore_cost <= curr_rocks['ore'] and curr_robots['ore'] <= max_ore_needed:
                     new_robots = curr_robots.copy()
                     new_robots['ore'] += 1
                     rocks_to_add = new_rocks.copy()
                     rocks_to_add['ore'] -= ore_cost
 
-                    observed_path = tuple([*rocks_to_add, *new_robots])
+                    observed_path = tuple([*rocks_to_add.values(), *new_robots.values()])
                     if observed_path not in observed:
                         new_paths.append({'rocks': rocks_to_add, 'robots': new_robots})
                         observed.add(observed_path)
                 
-                if clay_cost <= curr_rocks['ore']:
+                if clay_cost <= curr_rocks['ore'] and curr_robots['clay'] <= obs_cost_clay:
                     new_robots = curr_robots.copy()
                     new_robots['clay'] += 1
                     rocks_to_add = new_rocks.copy()
                     rocks_to_add['ore'] -= clay_cost
-                    observed_path = tuple([*rocks_to_add, *new_robots])
+                    observed_path = tuple([*rocks_to_add.values(), *new_robots.values()])
                     if observed_path not in observed:
                         new_paths.append({'rocks': rocks_to_add, 'robots': new_robots})
                         observed.add(observed_path)
                 
-                if obs_cost_ore <= curr_rocks['ore'] and obs_cost_clay <= curr_rocks['clay']:
+                if obs_cost_ore <= curr_rocks['ore'] and obs_cost_clay <= curr_rocks['clay'] and curr_robots['obs'] <= geo_cost_obs:
                     new_robots = curr_robots.copy()
                     new_robots['obs'] += 1
                     rocks_to_add = new_rocks.copy()
                     rocks_to_add['ore'] -= obs_cost_ore
                     rocks_to_add['clay'] -= obs_cost_clay
-                    observed_path = tuple([*rocks_to_add, *new_robots])
+                    observed_path = tuple([*rocks_to_add.values(), *new_robots.values()])
                     if observed_path not in observed:
                         new_paths.append({'rocks': rocks_to_add, 'robots': new_robots})
                         observed.add(observed_path)
@@ -107,41 +121,159 @@ def make_robots(fname):
                     rocks_to_add = new_rocks.copy()
                     rocks_to_add['ore'] -= geo_cost_ore
                     rocks_to_add['obs'] -= geo_cost_obs
-                    observed_path = tuple([*rocks_to_add, *new_robots])
+                    observed_path = tuple([*rocks_to_add.values(), *new_robots.values()])
                     if observed_path not in observed:
                         new_paths.append({'rocks': rocks_to_add, 'robots': new_robots})
                         observed.add(observed_path)
 
                 # add path where we don't do anything
-                observed_path = tuple([*new_rocks, *curr_robots])
+                observed_path = tuple([*new_rocks.values(), *curr_robots.values()])
                 if observed_path not in observed:
                     new_paths.append({'rocks': new_rocks, 'robots': curr_robots})
                     observed.add(observed_path)
-
-                # if _ == 2:
-                #     # for np in new_paths:
-                #     #     print(np)
-                #     exit()
             
             paths = new_paths
             new_paths = []
         
         for p in paths:
-            if new_max := p['rocks']['geo'] > max_geo_per_bp:
-                max_geo_per_bp = new_max
+            if p['rocks']['geo'] > max_geo_per_bp:
+                max_geo_per_bp = p['rocks']['geo']
         best_geo_all_bps[bp_idx] = max_geo_per_bp
 
-        return best_geo_all_bps
+        ans = 0
+        for idx, best_geo in best_geo_all_bps.items():
+            ans += (idx * best_geo)
 
-print(make_robots('input/test.txt'))
+    print(best_geo_all_bps)
+    return ans
 
-'''
-Ignore any state lagging behind the best geode count by 2 or more (this is the big save and came very much from this thread)
+# this takes like 15 minutes but is correct lol
+# print(make_robots('input/test.txt'))
+# print(make_robots('input/19.txt'))
 
-Ignore any state lagging behind the best geode bot count by 2 or more (sort of a duplicate of the above but at one point I was desperate for memory and performance)
+def make_robots2(fname):
+    bps = process_input(fname, part2=True)
 
-Ignore any state lagging behind the largest count of non-ore bots by 10 or more (this is probably not guaranteed to give an optimal solution but does work for my inputs and cuts the search space down a chunk).
+    best_geo_all_bps = {}
+    
 
-Use a hash set for speed and to make sure states are unique (not sure if two paths can lead to the same state but my gut feeling is they can)
+    for bp_idx, costs in bps.items():
+        ore_cost, clay_cost, obs_cost, geo_cost = costs
+        obs_cost_ore, obs_cost_clay = obs_cost
+        geo_cost_ore, geo_cost_obs = geo_cost
 
-'''
+        max_geo_per_bp = 0
+        best_geode, best_geode_robot, best_nongeo_robot = 0, 0, 0
+
+        paths = [{
+            'rocks': {'ore': 0, 'clay': 0, 'obs': 0,'geo': 0},
+            'robots': {'ore': 1, 'clay': 0, 'obs': 0,'geo': 0}
+        }]
+        new_paths = []
+        
+        # keep track of what we've seen. 
+        # maybe in a tuple like (*rocks, *robots)
+        observed = set((0,0,0,0,1,0,0,0))
+
+        for round in range(32):
+            print(bp_idx, round)
+            for p in paths:
+                # if we look at all paths, this runs like molasses. set up an arbitrary culling step at round 12
+                # maybe if no clay robots have been purchased by then?
+
+                curr_geode = p['rocks']['geo']
+                if curr_geode > best_geode:
+                    best_geode = curr_geode
+                elif curr_geode + 3 <= best_geode:
+                    continue
+
+                curr_geode_robot = p['robots']['geo']
+                if curr_geode_robot > best_geode_robot:
+                    best_geode_robot = curr_geode_robot
+                elif curr_geode_robot + 2 <= best_geode_robot:
+                    continue
+
+                curr_nongeo_robots = sum([val for robot, val in p['robots'].items() if robot != 'geo'])
+                if curr_nongeo_robots > best_nongeo_robot:
+                    best_nongeo_robot = curr_nongeo_robots
+                elif curr_nongeo_robots + 10 <= best_nongeo_robot:
+                    continue
+
+                # first add all new resources
+                curr_robots, curr_rocks = p['robots'].copy(), p['rocks'].copy()
+                new_rocks = curr_rocks.copy()
+
+                for robot_type, robot_num in curr_robots.items():
+                    new_rocks[robot_type] = robot_num + curr_rocks[robot_type]
+
+                # buy robots if possible but don't if you're already at max capacity
+                max_ore_needed = max(ore_cost, clay_cost, obs_cost_ore, geo_cost_ore)
+                if ore_cost <= curr_rocks['ore'] and curr_robots['ore'] <= max_ore_needed:
+                    new_robots = curr_robots.copy()
+                    new_robots['ore'] += 1
+                    rocks_to_add = new_rocks.copy()
+                    rocks_to_add['ore'] -= ore_cost
+
+                    observed_path = tuple([*rocks_to_add.values(), *new_robots.values()])
+                    if observed_path not in observed:
+                        new_paths.append({'rocks': rocks_to_add, 'robots': new_robots})
+                        observed.add(observed_path)
+                
+                if clay_cost <= curr_rocks['ore'] and curr_robots['clay'] <= obs_cost_clay:
+                    new_robots = curr_robots.copy()
+                    new_robots['clay'] += 1
+                    rocks_to_add = new_rocks.copy()
+                    rocks_to_add['ore'] -= clay_cost
+                    observed_path = tuple([*rocks_to_add.values(), *new_robots.values()])
+                    if observed_path not in observed:
+                        new_paths.append({'rocks': rocks_to_add, 'robots': new_robots})
+                        observed.add(observed_path)
+                
+                if obs_cost_ore <= curr_rocks['ore'] and obs_cost_clay <= curr_rocks['clay'] and curr_robots['obs'] <= geo_cost_obs:
+                    new_robots = curr_robots.copy()
+                    new_robots['obs'] += 1
+                    rocks_to_add = new_rocks.copy()
+                    rocks_to_add['ore'] -= obs_cost_ore
+                    rocks_to_add['clay'] -= obs_cost_clay
+                    observed_path = tuple([*rocks_to_add.values(), *new_robots.values()])
+                    if observed_path not in observed:
+                        new_paths.append({'rocks': rocks_to_add, 'robots': new_robots})
+                        observed.add(observed_path)
+                
+                if geo_cost_ore <= curr_rocks['ore'] and geo_cost_obs <= curr_rocks['obs']:
+                    new_robots = curr_robots.copy()
+                    new_robots['geo'] += 1
+                    rocks_to_add = new_rocks.copy()
+                    rocks_to_add['ore'] -= geo_cost_ore
+                    rocks_to_add['obs'] -= geo_cost_obs
+                    observed_path = tuple([*rocks_to_add.values(), *new_robots.values()])
+                    if observed_path not in observed:
+                        new_paths.append({'rocks': rocks_to_add, 'robots': new_robots})
+                        observed.add(observed_path)
+
+                # add path where we don't do anything
+                observed_path = tuple([*new_rocks.values(), *curr_robots.values()])
+                if observed_path not in observed:
+                    new_paths.append({'rocks': new_rocks, 'robots': curr_robots})
+                    observed.add(observed_path)
+            
+            paths = new_paths
+            new_paths = []
+        
+        for p in paths:
+            if p['rocks']['geo'] > max_geo_per_bp:
+                max_geo_per_bp = p['rocks']['geo']
+        best_geo_all_bps[bp_idx] = max_geo_per_bp
+
+    ans = 1
+    for best_geo in best_geo_all_bps.values():
+        ans *= best_geo
+
+    print(best_geo_all_bps)
+    return ans
+
+
+# this is also stupid slow, but whatever. i got the correct answer after another 10 min lol
+
+# print(make_robots2('input/test.txt'))
+print(make_robots2('input/19.txt'))
