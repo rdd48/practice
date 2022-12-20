@@ -22,6 +22,10 @@ def mix_list(fname, part2=False):
             # get new index. modulo is cool here because it makes the negative indices positive
             new_idx = (curr_idx + val) % (len(mix_order) - 1)
 
+            # this isn't necessary? since it's a looped list. but, whatever, it matches the input
+            if new_idx == 0:
+                new_idx = len(mix_order)
+
             # remove the item first
             mix_list.remove((idx, val))
 
