@@ -1,3 +1,6 @@
+from sympy.solvers import solve
+from sympy import Symbol
+
 def funny_attempt(fname):
     with open(fname) as f:
         lines = f.readlines()
@@ -5,7 +8,7 @@ def funny_attempt(fname):
 
     unsolved = lines.copy()
     new = []
-    while len(unsolved):
+    while 'root' not in locals():
         for l in unsolved:
             try:
                 exec(l)
@@ -19,7 +22,7 @@ def funny_attempt(fname):
 
 # this... works. lol.
 # print(funny_attempt('input/test.txt'))
-# print(funny_attempt('input/21.txt'))
+print(funny_attempt('input/21.txt'))
 
 def check_int(s):
     try:
@@ -34,10 +37,9 @@ def funny_attempt2(fname):
         lines = f.readlines()
         lines = [l.replace(':', ' =').strip() for l in lines]
 
-        d = {}
+        d, root_exp = {}, []
         for l in lines:
             if l.startswith('root'):
-                print(l)
                 l = l.replace('+', '=')
                 root_exp = l.split()[-3:]
             
@@ -49,6 +51,7 @@ def funny_attempt2(fname):
                 d[lsplit[0]] = lsplit[-3:]
     
     looping = True
+
     while looping:
         looping = False
         new_exp = []
@@ -69,11 +72,12 @@ def funny_attempt2(fname):
         root_exp = new_exp
         new_exp = []
         
-    eq = ''.join([str(r) for r in root_exp]).split('=')
-    return eq[0], eq[1]
+    eq = ''.join([str(r) for r in root_exp])
+    eq = eq.replace('humn', 'h')
+    eq = eq.split('=')
+    h = Symbol('h')
+    return solve(eval(f'{eq[0]}-{eq[1]}'), h)[0]
 
 # print(funny_attempt2('input/test.txt'))
 print(funny_attempt2('input/21.txt'))
 
-# then solve the equation in mathpapa lol https://www.mathpapa.com/algebra-calculator.html
-        
