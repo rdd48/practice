@@ -40,8 +40,8 @@ def funny_attempt2(fname):
         d, root_exp = {}, []
         for l in lines:
             if l.startswith('root'):
-                l = l.replace('+', '=')
-                root_exp = l.split()[-3:]
+                # l = l.replace('+', '=')
+                root_exp = [l.split()[-3]] + ['='] + [l.split()[-1]]
             
             lsplit = l.split()
             
