@@ -125,7 +125,6 @@ def move_once_cube(pos, ori, rows, cols):
 
     elif ori == 'U':
         if r == r2+1 and c <= c1:
-            print('here', 50+(c%50))
             return 50+(c%50), c1+1, 'R'
         elif r == 0 and c1 < c <= c2:
             return 150+(c%50), 0, 'R'
