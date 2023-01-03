@@ -8,6 +8,7 @@ def all_fields(curr, fields):
 with open('input/04.txt') as f:
     lines = f.readlines()
     lines = [l.strip() for l in lines]
+    lines.append('') # add extra line to read all passports
 
     fields = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid']
     valid = 0
@@ -20,11 +21,7 @@ with open('input/04.txt') as f:
                 valid += 1
             curr = ''
 
-    # check last passport
-    if all_fields(curr, fields):
-        valid += 1
-
-    print(valid)
+    print('part 1: ', valid)
 
 # part two
 def check_field(i):
@@ -70,6 +67,7 @@ def check_part2_fields(lst):
 with open('input/04.txt') as f:
     lines = f.readlines()
     lines = [l.strip() for l in lines]
+    lines.append('') # add extra line to read all passports
 
     valid2 = 0
     curr = []
@@ -81,8 +79,7 @@ with open('input/04.txt') as f:
             if check_part2_fields(curr):
                 valid2 += 1
             curr = []
-    if check_part2_fields(curr):
-        valid2 += 1
-    print(valid2)
+
+    print('part 2: ', valid2)
 
 
