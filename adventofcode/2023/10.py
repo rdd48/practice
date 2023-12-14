@@ -34,7 +34,6 @@ def get_starting_square(start, grid):
             grid[r+1][c] = (grid[r+1][c][0], 1)
             return (r+1, c), grid, next_ds[grid[r+1][c][0]]
 
-
 def get_next_square(start, grid, curr_dist, next_dir):
     r, c = start
 
@@ -69,9 +68,18 @@ def get_next_square(start, grid, curr_dist, next_dir):
     
     grid[r][c] = ('X',curr_dist)
     return start, grid, '', True
-    
 
-def part1(fname):
+def shoelace(loop_tiles):
+    fwd = 0
+    rev = 0
+    for idx, val in enumerate(loop_tiles):
+        curr_x, curr_y = val
+        next_x, next_y = loop_tiles[(idx+1) % len(loop_tiles)]
+        fwd += (curr_x * next_y)
+        rev += (curr_y * next_x)
+    return 0.5 * abs(fwd - rev)
+
+def main(fname):
     with open(fname) as f:
         # grid will be a list of lists. each list is a row. within each list is a tuple of (character, distance from S)
         grid = [] 
@@ -87,16 +95,25 @@ def part1(fname):
     finished = False
 
     curr, grid, next_dir = get_starting_square(start, grid)
+    loop_tiles = [start]
     while not finished:
+        loop_tiles.append(curr)
         curr_dist += 1
         curr, grid, next_dir, finished = get_next_square(curr, grid, curr_dist, next_dir)
-      
-    # for i in grid:
-    #     print(''.join([str(j[0]) if j[1] else '.' for j in i]))
-    # for i in grid:
-    #     print(''.join([str(f'({j[1]})') if j[1] else '.' for j in i]))
 
-    return int(curr_dist / 2)
+    print(f'part 1: {int(curr_dist / 2)}')
+
+    # pick's theorem?
+    # area = interior + (1/2 * boundary) - 1
+    # interior = area - (1/2 * boundary) + 1
+
+    # shoelace formula?
+    # area = 1/2 * abs(((x1 * y2) + (y2 * x3)...) - (y1 * x2))
+
+    shoe_area = shoelace(loop_tiles)
+    return f'part 2: {int(shoe_area - (0.5 * len(loop_tiles)) + 1)}'
+
+    
 
 # print(part1('input/test.txt'))
-print(part1('input/10.txt'))
+print(main('input/10.txt'))
